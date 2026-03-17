@@ -1,0 +1,552 @@
+/* Material 3 Design System - Custom Vanilla CSS */
+
+:root {
+    /* Colors - Material 3 Dark Theme */
+    --md-sys-color-background: #1C1B1F;
+    --md-sys-color-on-background: #E6E1E5;
+
+    --md-sys-color-surface: #1C1B1F;
+    --md-sys-color-surface-container-low: #1C1B1F;
+    --md-sys-color-surface-container: #201F24;
+    --md-sys-color-surface-container-high: #2B2930;
+
+    --md-sys-color-on-surface: #E6E1E5;
+    --md-sys-color-on-surface-variant: #CAC4D0;
+
+    /* Primary (Green/Emerald aesthetic for this specific tool) */
+    --md-sys-color-primary: #52D273;
+    --md-sys-color-on-primary: #003915;
+    --md-sys-color-primary-container: #005322;
+    --md-sys-color-on-primary-container: #71F08E;
+
+    /* Secondary / Accents */
+    --md-sys-color-secondary: #B3CCB6;
+
+    /* Error / Success */
+    --md-sys-color-error: #FFB4AB;
+    --md-sys-color-on-error: #690005;
+    --md-sys-color-error-container: #93000A;
+    --md-sys-color-success: #52D273;
+    /* same as primary for positive action */
+
+    /* Typography */
+    --md-sys-typescale-font: 'Roboto', sans-serif;
+
+    /* Elevation */
+    --md-elevation-1: 0 1px 2px 0 rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
+    --md-elevation-2: 0 1px 2px 0 rgba(0, 0, 0, 0.3), 0 2px 6px 2px rgba(0, 0, 0, 0.15);
+    --md-elevation-3: 0 4px 8px 3px rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+
+    /* Shape (Corner Radius) */
+    --md-sys-shape-corner-extra-large: 28px;
+    --md-sys-shape-corner-large: 16px;
+    --md-sys-shape-corner-medium: 12px;
+    --md-sys-shape-corner-small: 8px;
+
+    /* Animation */
+    --md-sys-motion-easing-standard: cubic-bezier(0.2, 0.0, 0, 1.0);
+}
+
+/* Base Body Styles */
+body.md-body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--md-sys-color-background);
+    color: var(--md-sys-color-on-background);
+    font-family: var(--md-sys-typescale-font);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+}
+
+/* Material Icons Customization */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    vertical-align: text-bottom;
+}
+
+.icon-large {
+    font-size: 36px;
+}
+
+/* Text Utilities */
+.text-primary {
+    color: var(--md-sys-color-primary) !important;
+}
+
+.text-error {
+    color: var(--md-sys-color-error) !important;
+}
+
+.text-success {
+    color: var(--md-sys-color-success) !important;
+}
+
+/* Top App Bar */
+.md-app-bar {
+    background-color: var(--md-sys-color-surface-container);
+    color: var(--md-sys-color-on-surface);
+    height: 64px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--md-elevation-1);
+}
+
+.md-app-bar-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.md-icon {
+    font-size: 28px;
+    color: var(--md-sys-color-primary);
+}
+
+.md-title {
+    font-size: 22px;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* Main Layout */
+.md-main-container {
+    max-width: 1000px;
+    margin: 32px auto;
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Components: Cards */
+.md-card {
+    background-color: var(--md-sys-color-surface-container);
+    border-radius: var(--md-sys-shape-corner-extra-large);
+    color: var(--md-sys-color-on-surface);
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.3s var(--md-sys-motion-easing-standard);
+}
+
+.elevation-1 {
+    box-shadow: var(--md-elevation-1);
+}
+
+.elevation-2 {
+    box-shadow: var(--md-elevation-2);
+}
+
+.surface-container-low {
+    background-color: var(--md-sys-color-surface-container-high);
+}
+
+.md-headline {
+    font-size: 24px;
+    font-weight: 400;
+    margin: 0 0 8px 0;
+}
+
+.md-body-text {
+    color: var(--md-sys-color-on-surface-variant);
+    margin-bottom: 24px;
+}
+
+/* Form & Text Fields */
+.md-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.md-text-field {
+    position: relative;
+    width: 100%;
+}
+
+.md-text-field input {
+    width: 100%;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.05);
+    /* slightly transparent overlay */
+    border: none;
+    border-bottom: 1px solid var(--md-sys-color-on-surface-variant);
+    border-radius: var(--md-sys-shape-corner-small) var(--md-sys-shape-corner-small) 0 0;
+    padding: 24px 16px 8px 16px;
+    color: var(--md-sys-color-on-surface);
+    font-family: var(--md-sys-typescale-font);
+    font-size: 16px;
+    transition: all 0.2s ease-in-out;
+}
+
+.md-text-field input:focus {
+    outline: none;
+    border-bottom: 2px solid var(--md-sys-color-primary);
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.md-text-field label {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 16px;
+    pointer-events: none;
+    transition: 0.2s var(--md-sys-motion-easing-standard);
+}
+
+.md-text-field input:focus~label,
+.md-text-field input:not(:placeholder-shown)~label {
+    top: 6px;
+    font-size: 12px;
+    color: var(--md-sys-color-primary);
+}
+
+/* Workaround to only show label animation when not placeholder */
+.md-text-field input::placeholder {
+    color: transparent;
+}
+
+.md-text-field input:focus::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* Form Actions */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Buttons */
+.md-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 24px;
+    height: 40px;
+    border-radius: 20px;
+    font-family: var(--md-sys-typescale-font);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s, box-shadow 0.2s, transform 0.1s;
+}
+
+.md-btn:active {
+    transform: scale(0.98);
+}
+
+.md-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.md-btn-filled {
+    background-color: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+}
+
+.md-btn-filled:hover:not(:disabled) {
+    background-color: #63E484;
+    /* hover state slightly lighter */
+    box-shadow: var(--md-elevation-1);
+}
+
+/* Progress / Loader */
+.md-linear-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: var(--md-sys-color-primary-container);
+    overflow: hidden;
+}
+
+.md-progress-bar {
+    width: 30%;
+    height: 100%;
+    background-color: var(--md-sys-color-primary);
+    animation: indeterminate 1.5s infinite linear;
+}
+
+@keyframes indeterminate {
+    0% {
+        transform: translateX(-100%) scaleX(0.2);
+    }
+
+    50% {
+        transform: translateX(0) scaleX(0.5);
+    }
+
+    100% {
+        transform: translateX(300%) scaleX(0.1);
+    }
+}
+
+/* Banner */
+.md-banner {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background-color: var(--md-sys-color-error-container);
+    color: var(--md-sys-color-on-error);
+    border-radius: var(--md-sys-shape-corner-medium);
+}
+
+.md-banner .material-symbols-outlined {
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.md-banner .md-body-text {
+    margin-bottom: 0;
+    line-height: 1.4;
+}
+
+/* Dashboard Summary Cards */
+.dashboard-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.summary-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+    border-radius: var(--md-sys-shape-corner-large);
+}
+
+.stat-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--md-sys-color-on-surface);
+}
+
+.stat-label {
+    font-size: 14px;
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+/* Results Grid */
+.results-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+@media (max-width: 800px) {
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.result-column {
+    border-top: 4px solid transparent;
+    padding: 16px;
+}
+
+.border-success {
+    border-top-color: var(--md-sys-color-success);
+}
+
+.border-error {
+    border-top-color: var(--md-sys-color-error);
+}
+
+.column-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.badge {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.badge-success {
+    background-color: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-on-primary-container);
+}
+
+.badge-error {
+    background-color: var(--md-sys-color-error-container);
+    color: #FFB4AB;
+}
+
+/* Lists Inside Cards */
+.md-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.md-list-item {
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: var(--md-sys-shape-corner-medium);
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.md-list-item:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.company-name {
+    font-weight: 500;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.company-details {
+    margin-top: 8px;
+    font-size: 14px;
+    color: var(--md-sys-color-on-surface-variant);
+    display: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 8px;
+}
+
+.company-details.expanded {
+    display: block;
+}
+
+.company-detail-item {
+    margin-bottom: 4px;
+}
+
+.tag-chip {
+    display: inline-block;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin: 2px;
+    font-family: monospace;
+}
+
+/* Utility Classes */
+.hidden {
+    display: none !important;
+}
+
+/* Ripple Effect simple substitute */
+.expand-icon {
+    font-size: 20px;
+    transition: transform 0.2s;
+}
+
+.expanded .expand-icon {
+    transform: rotate(180deg);
+}
+
+.empty-state {
+    text-align: center;
+    color: var(--md-sys-color-on-surface-variant);
+    padding: 24px;
+    font-size: 14px;
+    font-style: italic;
+}
+
+/* Drag and Drop Zone */
+.drop-area {
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    padding: 32px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.03);
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.drop-area:hover,
+.drop-area.active {
+    border-color: var(--md-sys-color-primary);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.drop-area h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.drop-area p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+#selected-file-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 12px 16px;
+    border-radius: var(--md-sys-shape-corner-medium);
+    margin-bottom: 16px;
+    border-left: 4px solid var(--md-sys-color-primary);
+}
+
+/* Dashboard Actions */
+.dashboard-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Warning for invoices without IBS in approved companies */
+.note-warning {
+    color: #FBC02D;
+    background-color: rgba(251, 192, 45, 0.1);
+    padding: 6px 8px;
+    border-radius: var(--md-sys-shape-corner-small);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-left: 3px solid #FBC02D;
+    font-size: 13px;
+    width: fit-content;
+}
+
+.note-warning-icon {
+    font-size: 18px;
+    color: #FBC02D;
+}

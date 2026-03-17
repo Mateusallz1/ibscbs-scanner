@@ -1,0 +1,37 @@
+<nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe"><NFe><infNFe Id="NFe22260207082444000162550010000028651440060053" versao="4.00"><ide><cUF>22</cUF><cNF>44006005</cNF><natOp>VENDA DE MERCADORIA</natOp><mod>55</mod><serie>1</serie><nNF>2865</nNF><dhEmi>2026-02-03T20:17:00-03:00</dhEmi><tpNF>1</tpNF><idDest>2</idDest><cMunFG>2211001</cMunFG><tpImp>1</tpImp><tpEmis>1</tpEmis><cDV>3</cDV><tpAmb>1</tpAmb><finNFe>1</finNFe><indFinal>0</indFinal><indPres>0</indPres><procEmi>3</procEmi><verProc>4.01_sebrae_b053</verProc></ide><emit><CNPJ>07082444000162</CNPJ><xNome>AMOPIL ARGILAS MODIFICADAS DO PIAUI LTDA</xNome><xFant>AMOPIL</xFant><enderEmit><xLgr>BR 316 KM 23 S/N</xLgr><nro>0</nro><xCpl>LUGAREJO CAMPESTRE</xCpl><xBairro>ZONA RURAL</xBairro><cMun>2211001</cMun><xMun>Teresina</xMun><UF>PI</UF><CEP>64027730</CEP><cPais>1058</cPais><xPais>BRASIL</xPais></enderEmit><IE>194561950</IE><CRT>3</CRT></emit><dest><CNPJ>03044969000152</CNPJ><xNome>MEJER AGROFLORESTAL LTDA</xNome><enderDest><xLgr>ROD. BONITO / CARAREMA TTAV. 171 S/N</xLgr><nro>0</nro><xBairro>ZONA RURAL</xBairro><cMun>1501600</cMun><xMun>Bonito</xMun><UF>PA</UF><CEP>68645000</CEP><cPais>1058</cPais><xPais>BRASIL</xPais></enderDest><indIEDest>1</indIEDest><IE>152060642</IE></dest><det nItem="1"><prod><cProd>001</cProd><cEAN>SEM GTIN</cEAN><xProd>ARGILA CLARIFICANTE AT-01</xProd><NCM>38029030</NCM><CFOP>6102</CFOP><uCom>KG</uCom><qCom>9500.0000</qCom><vUnCom>1.7540000000</vUnCom><vProd>16663.00</vProd><cEANTrib>SEM GTIN</cEANTrib><uTrib>KG</uTrib><qTrib>9500.0000</qTrib><vUnTrib>1.7540000000</vUnTrib><vFrete>1500.00</vFrete><indTot>1</indTot></prod><imposto><ICMS><ICMS00><orig>0</orig><CST>00</CST><modBC>3</modBC><vBC>18163.00</vBC><pICMS>12.00</pICMS><vICMS>2179.56</vICMS></ICMS00></ICMS><PIS><PISAliq><CST>01</CST><vBC>15983.44</vBC><pPIS>0.6500</pPIS><vPIS>103.89</vPIS></PISAliq></PIS><COFINS><COFINSAliq><CST>01</CST><vBC>15983.44</vBC><pCOFINS>3.0000</pCOFINS><vCOFINS>479.50</vCOFINS></COFINSAliq></COFINS></imposto></det><total><ICMSTot><vBC>18163.00</vBC><vICMS>2179.56</vICMS><vICMSDeson>0.00</vICMSDeson><vFCPUFDest>0.00</vFCPUFDest><vICMSUFDest>0.00</vICMSUFDest><vICMSUFRemet>0.00</vICMSUFRemet><vFCP>0.00</vFCP><vBCST>0.00</vBCST><vST>0.00</vST><vFCPST>0.00</vFCPST><vFCPSTRet>0.00</vFCPSTRet><qBCMono>0.00</qBCMono><vICMSMono>0.00</vICMSMono><qBCMonoReten>0.00</qBCMonoReten><vICMSMonoReten>0.00</vICMSMonoReten><qBCMonoRet>0.00</qBCMonoRet><vICMSMonoRet>0.00</vICMSMonoRet><vProd>16663.00</vProd><vFrete>1500.00</vFrete><vSeg>0.00</vSeg><vDesc>0.00</vDesc><vII>0.00</vII><vIPI>0.00</vIPI><vIPIDevol>0.00</vIPIDevol><vPIS>103.89</vPIS><vCOFINS>479.50</vCOFINS><vOutro>0.00</vOutro><vNF>18163.00</vNF><vTotTrib>0.00</vTotTrib></ICMSTot></total><transp><modFrete>0</modFrete><vol><qVol>08</qVol><esp>PALLETS</esp><pesoL>9500.000</pesoL><pesoB>0.000</pesoB></vol></transp><cobr><fat><nFat>2865</nFat><vOrig>18163.00</vOrig><vDesc>0.00</vDesc><vLiq>18163.00</vLiq></fat><dup><nDup>001</nDup><dVenc>2026-02-18</dVenc><vDup>6054.33</vDup></dup><dup><nDup>002</nDup><dVenc>2026-03-05</dVenc><vDup>6054.33</vDup></dup><dup><nDup>003</nDup><dVenc>2026-03-20</dVenc><vDup>6054.34</vDup></dup></cobr><pag><detPag><indPag>1</indPag><tPag>16</tPag><vPag>18163.00</vPag></detPag></pag><infAdic><infCpl>VALOR DO FRETE INCLUSO NO VALOR FINAL DA NOTA FISCAL / R$ 1.500,00</infCpl></infAdic><infRespTec><CNPJ>43728245000142</CNPJ><xContato>suporte</xContato><email>suporteemissores@sebraesp.com.br</email><fone>08005700800</fone></infRespTec></infNFe><Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><Reference URI="#NFe22260207082444000162550010000028651440060053"><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>bnMwYTqirA9iQek+LkRw1Q5Ww8w=</DigestValue></Reference></SignedInfo><SignatureValue>comlt4PIJlBF2KC7zaiyX0UOCm35+oS1ZOfCFttew27WlQ10o0ShHd8YAaB1BtGN/DhOVOvReyw5
+yosBKn3dsRxjs/IqEjA5t9ZgY7nhOIOGW9WJosU3NmsMZDAi/bRBJTCQ8I4uKVlA3WfsYdENHl0Y
+3JqGPlxxdbyr20nMc1v7tppE5yzjcsBU70hirE0i5k2xmLq+3i8F2ZnwcMH1HfrGeH+0ZCd4BrZo
+W3Ten0n9xr7TtEou0pMCtZze4kL9dH7hCfJpporZZJGwIjoDMGOd4p2x2KrVF08qwCEPUTUKMMTj
++oLoQJrhlmEiByrWJK6x5sval97wDcMZdfzSgg==</SignatureValue><KeyInfo><X509Data><X509Certificate>MIIHRzCCBS+gAwIBAgIIEjslCSRU59AwDQYJKoZIhvcNAQELBQAwWTELMAkGA1UEBhMCQlIxEzAR
+BgNVBAoTCklDUC1CcmFzaWwxFTATBgNVBAsTDEFDIFNPTFVUSSB2NTEeMBwGA1UEAxMVQUMgU09M
+VVRJIE11bHRpcGxhIHY1MB4XDTI1MDkyNDE3MDUwMFoXDTI2MDkyNDE3MDUwMFowge4xCzAJBgNV
+BAYTAkJSMRMwEQYDVQQKEwpJQ1AtQnJhc2lsMQswCQYDVQQIEwJQSTERMA8GA1UEBxMIVGVyZXNp
+bmExHjAcBgNVBAsTFUFDIFNPTFVUSSBNdWx0aXBsYSB2NTEXMBUGA1UECxMONDM5NDQzNzUwMDAx
+MTIxEzARBgNVBAsTClByZXNlbmNpYWwxGjAYBgNVBAsTEUNlcnRpZmljYWRvIFBKIEExMUAwPgYD
+VQQDEzdBTU9QSUwgQVJHSUxBUyBNT0RJRklDQURBUyBETyBQSUFVSSBMVERBOjA3MDgyNDQ0MDAw
+MTYyMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA33G3bP+3GFI29UhBDj/CRmhsgSGF
+S0etP3Jud1Bqf4xuUYAIqSx6Xirejj/A78ZYfwZPvOOQfEiGcakcZETiVz8cRZs6bPVPfX68qH3M
+4by70fyLicC1cUnN0xZ2gL7GLzYF74oNzXLyRtv1uqIrBQx1xWgsW3KCGYX4bSZzD3IA0h4Uk79I
+0EnkVVdz//tqv674fFYy3j1eVFBQuwUcWGgiY0Dj/+oZoJqOnLYkTUTmPBzWf+Pasn+wTbpInMfB
+kJyd181IY6WKJodjkJpv0J9BGAZ1JUsev+2JjeQ4ppiCBq2cuTsHj6a8T+GD9pVzwM1kojnKaidu
+K7U5OcZt+wIDAQABo4ICezCCAncwCQYDVR0TBAIwADAfBgNVHSMEGDAWgBTFUu0lgAnfnILIn0fG
+3bRfMd25sTBUBggrBgEFBQcBAQRIMEYwRAYIKwYBBQUHMAKGOGh0dHA6Ly9jY2QuYWNzb2x1dGku
+Y29tLmJyL2xjci9hYy1zb2x1dGktbXVsdGlwbGEtdjUucDdiMIG2BgNVHREEga4wgauBG2NvbnRh
+dG9AY29uc3VsdGNvbnRhYmlsLmNvbaAeBgVgTAEDAqAVExNCUlVOTyBWRVJBUyBDT0lNQlJBoBkG
+BWBMAQMDoBATDjA3MDgyNDQ0MDAwMTYyoDgGBWBMAQMEoC8TLTE0MDkxOTgxOTY1Mjg2NjQzMTUw
+MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMKAXBgVgTAEDB6AOEwwwMDAwMDAwMDAwMDAwXQYDVR0g
+BFYwVDBSBgZgTAECASYwSDBGBggrBgEFBQcCARY6aHR0cDovL2NjZC5hY3NvbHV0aS5jb20uYnIv
+ZG9jcy9kcGMtYWMtc29sdXRpLW11bHRpcGxhLnBkZjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYB
+BQUHAwQwgYwGA1UdHwSBhDCBgTA+oDygOoY4aHR0cDovL2NjZC5hY3NvbHV0aS5jb20uYnIvbGNy
+L2FjLXNvbHV0aS1tdWx0aXBsYS12NS5jcmwwP6A9oDuGOWh0dHA6Ly9jY2QyLmFjc29sdXRpLmNv
+bS5ici9sY3IvYWMtc29sdXRpLW11bHRpcGxhLXY1LmNybDAdBgNVHQ4EFgQUNJPaLGZ81zkpApUO
+NvhjHVDk82EwDgYDVR0PAQH/BAQDAgXgMA0GCSqGSIb3DQEBCwUAA4ICAQBJ8y/S+49ox92K1tUQ
+0fU816nY++buJh87k3F4VOkIY5LE9SB5bJ5df+aLev9Fpn1BAx9wL5y4b7jrBCQswdsHgDuw8gzC
+srYziQShKbpxR7vzqoGJmawH1jFXFapwIAthDZZNh3WvIeYe5Ey7QDAhkUFDzaZdPHf5KradvueS
+jzmhVppBW6aO6oaFoOcVUW5nPsuIjoIObSP8m2WMxzKSIs1dQ0xCTP2L2asIUIR5meqnyHzWuGdt
+Ac+/hFpfyT4bUGuTwYImeqwoZWKsImkxkEa7F4focC58FRvAdusCMXpkfuq49jY4CyHIUmXkQDB6
+AKKgcLH/ci5qOUvZlBI639dkaPOouM721SQnhAJgCIgUr4tXs6YnhUJNQUYRzv7m/farI+Yp74nf
+SfVWCNmBtvl4nxGqiKyoVSP177o48Hb3ADS+Yc5IHVTwx/RYAiheHr4bpW534ZoqUtnGOXjlXF3Z
+0x3SD56xll55debRlP1IR2BMgzLcUbVITcrX2M+460cc6oYmFIfd3dQ1NflUc3/Q8sDxDFqJqqbC
+XMXCoJzd0khisnxf+7abS1Hl5+dvFJyf4g12stb68663UyrCSNT/3BYHLVXrsHbKH5b2l66xEWvj
+PrTk4ihXK66BN3w5CSHugUsJcSD0QugSIa1mWpf3yER7SV2bJfbXiq8U+g==</X509Certificate></X509Data></KeyInfo></Signature></NFe><protNFe versao="4.00"><infProt><tpAmb>1</tpAmb><verAplic>SVRS2512111137DR</verAplic><chNFe>22260207082444000162550010000028651440060053</chNFe><dhRecbto>2026-02-03T21:02:37-03:00</dhRecbto><nProt>222260002807716</nProt><digVal>bnMwYTqirA9iQek+LkRw1Q5Ww8w=</digVal><cStat>100</cStat><xMotivo>Autorizado o uso da NF-e</xMotivo></infProt></protNFe></nfeProc>
