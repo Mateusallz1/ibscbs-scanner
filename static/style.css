@@ -356,6 +356,10 @@ body.md-body {
     gap: 24px;
 }
 
+.results-grid.single-column {
+    grid-template-columns: 1fr;
+}
+
 @media (max-width: 800px) {
     .results-grid {
         grid-template-columns: 1fr;
@@ -466,6 +470,16 @@ body.md-body {
 
 .expanded .expand-icon {
     transform: rotate(180deg);
+}
+
+.empty-state-full {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 48px 24px;
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: 15px;
 }
 
 .empty-state {

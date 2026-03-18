@@ -106,11 +106,17 @@
                 </div>
             </div>
 
+            <!-- Estado vazio -->
+            <div id="empty-state" class="hidden empty-state-full">
+                <span class="material-symbols-outlined icon-large" style="color: var(--md-sys-color-on-surface-variant);">folder_open</span>
+                <p>Nenhuma nota fiscal encontrada nos arquivos enviados.</p>
+            </div>
+
             <!-- Listas -->
-            <div class="results-grid">
+            <div class="results-grid" id="results-grid">
 
                 <!-- Empresas COM IBS -->
-                <div class="md-card elevation-1 result-column border-success">
+                <div class="md-card elevation-1 result-column border-success" id="col-com-ibs">
                     <div class="column-header">
                         <h3 class="md-title">Com IBSCBS</h3>
                         <span class="badge badge-success" id="badge-com-ibs">0</span>
@@ -121,7 +127,7 @@
                 </div>
 
                 <!-- Empresas SEM IBS -->
-                <div class="md-card elevation-1 result-column border-error">
+                <div class="md-card elevation-1 result-column border-error" id="col-sem-ibs">
                     <div class="column-header">
                         <h3 class="md-title">Sem IBSCBS</h3>
                         <span class="badge badge-error" id="badge-sem-ibs">0</span>

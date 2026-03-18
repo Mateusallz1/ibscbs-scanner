@@ -23,6 +23,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const listComIbs = document.getElementById('list-com-ibs');
     const listSemIbs = document.getElementById('list-sem-ibs');
 
+    // Columns and grid (for show/hide logic)
+    const colComIbs = document.getElementById('col-com-ibs');
+    const colSemIbs = document.getElementById('col-sem-ibs');
+    const resultsGrid = document.getElementById('results-grid');
+    const emptyState = document.getElementById('empty-state');
+
     let selectedFiles = [];
     let currentScanId = null;
 
@@ -182,29 +188,43 @@ document.addEventListener('DOMContentLoaded', () => {
         badgeComIbs.textContent = comIbsArray.length;
         badgeSemIbs.textContent = semIbsArray.length;
 
+        // Pasta vazia — sem nenhuma nota encontrada
+        if (resultados.length === 0) {
+            resultsGrid.classList.add('hidden');
+            emptyState.classList.remove('hidden');
+            dashboard.classList.remove('hidden');
+            return;
+        }
+        resultsGrid.classList.remove('hidden');
+        emptyState.classList.add('hidden');
+
         // Limpar listas
         listComIbs.innerHTML = '';
         listSemIbs.innerHTML = '';
 
-        // Renderizar COM IBS
+        // Renderizar e exibir/ocultar coluna COM IBS
         if (comIbsArray.length === 0) {
-            listComIbs.innerHTML = '<div class="empty-state">Nenhuma empresa encontrou IBSCBS.</div>';
+            colComIbs.classList.add('hidden');
         } else {
+            colComIbs.classList.remove('hidden');
             comIbsArray.forEach(empresa => {
-                const el = createCompanyItem(empresa, true);
-                listComIbs.appendChild(el);
+                listComIbs.appendChild(createCompanyItem(empresa, true));
             });
         }
 
-        // Renderizar SEM IBS
+        // Renderizar e exibir/ocultar coluna SEM IBS
         if (semIbsArray.length === 0) {
-            listSemIbs.innerHTML = '<div class="empty-state">Nenhuma empresa sem IBSCBS.</div>';
+            colSemIbs.classList.add('hidden');
         } else {
+            colSemIbs.classList.remove('hidden');
             semIbsArray.forEach(empresa => {
-                const el = createCompanyItem(empresa, false);
-                listSemIbs.appendChild(el);
+                listSemIbs.appendChild(createCompanyItem(empresa, false));
             });
         }
+
+        // Grid de coluna única quando só um grupo está visível
+        const onlyOne = comIbsArray.length === 0 || semIbsArray.length === 0;
+        resultsGrid.classList.toggle('single-column', onlyOne);
 
         // Mostrar dashboard
         dashboard.classList.remove('hidden');
