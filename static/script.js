@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const colSemIbs = document.getElementById('col-sem-ibs');
     const resultsGrid = document.getElementById('results-grid');
     const emptyState = document.getElementById('empty-state');
+    const dashboardSummary = document.getElementById('dashboard-summary');
 
     let selectedFiles = [];
     let currentScanId = null;
@@ -190,11 +191,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Pasta vazia — sem nenhuma nota encontrada
         if (resultados.length === 0) {
+            dashboardSummary.classList.add('hidden');
             resultsGrid.classList.add('hidden');
             emptyState.classList.remove('hidden');
+            if (btnExportPdf) btnExportPdf.closest('.dashboard-actions').classList.add('hidden');
             dashboard.classList.remove('hidden');
             return;
         }
+        dashboardSummary.classList.remove('hidden');
+        if (btnExportPdf) btnExportPdf.closest('.dashboard-actions').classList.remove('hidden');
         resultsGrid.classList.remove('hidden');
         emptyState.classList.add('hidden');
 
@@ -279,7 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Conta total de notas varridas e mostra as notas
             let total = 0;
             let arquivosVistos = [];
-            for (const [tipo, stats] of Object.entries(empresa.tipos)) {
+            for (const [, stats] of Object.entries(empresa.tipos)) {
                 total += stats.total_xmls;
                 if (stats.todos_arquivos && stats.todos_arquivos.length > 0) {
                     arquivosVistos.push(...stats.todos_arquivos);
