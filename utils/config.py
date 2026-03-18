@@ -18,6 +18,9 @@ IBS_TAGS: list[str] = [
 INVOICE_MODEL_NFE = "55"
 INVOICE_MODEL_NFCE = "65"
 
+# Invoice type label for NFS (identified by root tag, not <ide><mod>)
+INVOICE_TYPE_NFS = "NFS"
+
 # Valid root element local names for Brazilian electronic invoices
 VALID_XML_ROOTS: set[str] = {
     "nfeProc",
@@ -28,6 +31,11 @@ VALID_XML_ROOTS: set[str] = {
     "enviNFCe",
     "procEventoNFe",
     "retEnviNFe",
+    "Nfse",
+    "CompNfse",
+    "ListaNfse",
+    "ConsultarNfseResposta",
+    "ListaNotaFiscal",
 }
 
 # Upload constraints

@@ -9,7 +9,7 @@ import logging
 import xml.etree.ElementTree as ET
 from typing import TypedDict
 
-from utils.config import IBS_TAGS, INVOICE_MODEL_NFE, INVOICE_MODEL_NFCE
+from utils.config import IBS_TAGS, INVOICE_MODEL_NFE, INVOICE_MODEL_NFCE, INVOICE_TYPE_NFS
 from utils.validators import format_cnpj, strip_namespace, validate_xml_root
 
 logger = logging.getLogger(__name__)
@@ -66,11 +66,19 @@ def parse_invoice_xml(filepath: str) -> InvoiceData:
         result["error"] = str(exc)
         return result
 
+    root_tag_local = strip_namespace(root.tag)
+    # NFS files can be wrapped in many root tags (ConsultarNfseResposta,
+    # ListaNotaFiscal, CompNfse, Nfse, etc.).  The reliable signal is the
+    # presence of a <Nfse> element anywhere in the tree.
+    _NFS_ROOT_TAGS = {"Nfse", "CompNfse", "ListaNfse", "ConsultarNfseResposta", "ListaNotaFiscal"}
+    is_nfse = root_tag_local in _NFS_ROOT_TAGS or any(
+        strip_namespace(e.tag) == "Nfse" for e in root.iter()
+    )
+
     if not validate_xml_root(root):
-        root_tag = strip_namespace(root.tag)
         logger.debug(
             "Unrecognised root element '%s' in %s — processing anyway",
-            root_tag, filepath,
+            root_tag_local, filepath,
         )
 
     result["valid"] = True
@@ -81,39 +89,53 @@ def parse_invoice_xml(filepath: str) -> InvoiceData:
     invoice_model = ""
     ibs_tags_found: list[str] = []
 
-    ibs_lower = [tag.lower() for tag in IBS_TAGS]
-
     for elem in root.iter():
         local_tag = strip_namespace(elem.tag)
 
-        # 1. Emitter info
-        if local_tag == "emit":
-            for child in elem:
-                child_tag = strip_namespace(child.tag)
-                if child_tag == "xNome" and child.text:
-                    emitter_name = child.text.strip()
-                elif child_tag == "CNPJ" and child.text:
-                    raw_cnpj = child.text.strip()
-                    if len(raw_cnpj) != 14:
-                        logger.warning(
-                            "Malformed CNPJ '%s' in %s", raw_cnpj, filepath,
-                        )
-                    emitter_cnpj = format_cnpj(raw_cnpj)
+        if is_nfse:
+            # NFS: company info lives in <PrestadorServico>
+            # <RazaoSocial> is a direct child; <Cnpj> may be nested inside
+            # <IdentificacaoPrestador> — use iter() to find both at any depth.
+            if local_tag == "PrestadorServico":
+                for descendant in elem.iter():
+                    desc_tag = strip_namespace(descendant.tag)
+                    if desc_tag == "RazaoSocial" and descendant.text and not emitter_name:
+                        emitter_name = descendant.text.strip()
+                    elif desc_tag == "Cnpj" and descendant.text and not emitter_cnpj:
+                        raw_cnpj = descendant.text.strip()
+                        if len(raw_cnpj) != 14:
+                            logger.warning(
+                                "Malformed CNPJ '%s' in %s", raw_cnpj, filepath,
+                            )
+                        emitter_cnpj = format_cnpj(raw_cnpj)
+        else:
+            # NFe/NFCe: company info in <emit>, model code in <ide><mod>
+            if local_tag == "emit":
+                for child in elem:
+                    child_tag = strip_namespace(child.tag)
+                    if child_tag == "xNome" and child.text:
+                        emitter_name = child.text.strip()
+                    elif child_tag == "CNPJ" and child.text:
+                        raw_cnpj = child.text.strip()
+                        if len(raw_cnpj) != 14:
+                            logger.warning(
+                                "Malformed CNPJ '%s' in %s", raw_cnpj, filepath,
+                            )
+                        emitter_cnpj = format_cnpj(raw_cnpj)
 
-        # 2. Invoice model
-        elif local_tag == "ide" and not invoice_model:
-            for child in elem:
-                child_tag = strip_namespace(child.tag)
-                if child_tag == "mod" and child.text:
-                    invoice_model = child.text.strip()
-                    break
+            elif local_tag == "ide" and not invoice_model:
+                for child in elem:
+                    child_tag = strip_namespace(child.tag)
+                    if child_tag == "mod" and child.text:
+                        invoice_model = child.text.strip()
+                        break
 
-        # 3. IBS tag detection (by tag name)
+        # IBS tag detection (by tag name)
         if any(ibs.lower() in local_tag.lower() for ibs in IBS_TAGS):
             if local_tag not in ibs_tags_found:
                 ibs_tags_found.append(local_tag)
 
-        # 4. IBS detection in text content and attribute values
+        # IBS detection in text content and attribute values
         combined_text = (elem.text or "") + " ".join(elem.attrib.values())
         for ibs in IBS_TAGS:
             label = f"(valor) {ibs}"
@@ -127,15 +149,20 @@ def parse_invoice_xml(filepath: str) -> InvoiceData:
         result["cnpj"] = emitter_cnpj
 
     # Resolve invoice type
-    if invoice_model == INVOICE_MODEL_NFE:
+    if is_nfse:
+        result["invoice_type"] = INVOICE_TYPE_NFS
+    elif invoice_model == INVOICE_MODEL_NFE:
         result["invoice_type"] = "NFe"
     elif invoice_model == INVOICE_MODEL_NFCE:
         result["invoice_type"] = "NFCe"
     else:
-        # Heuristic fallback: check tag names for nfce/nfe patterns
+        # Heuristic fallback: check tag names — "nfse" must come before "nfe"
         for elem in root.iter():
             local_tag = strip_namespace(elem.tag)
-            if "nfce" in local_tag.lower():
+            if "nfse" in local_tag.lower():
+                result["invoice_type"] = INVOICE_TYPE_NFS
+                break
+            elif "nfce" in local_tag.lower():
                 result["invoice_type"] = "NFCe"
                 break
             elif "nfe" in local_tag.lower():
