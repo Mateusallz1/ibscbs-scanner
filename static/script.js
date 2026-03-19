@@ -164,6 +164,10 @@ document.addEventListener('DOMContentLoaded', () => {
             currentScanId = data.scan_id;
             renderDashboard(data.resultados);
 
+            const scanCount = parseInt(localStorage.getItem('ibscbs_scan_count') || '0', 10);
+            localStorage.setItem('ibscbs_scan_count', scanCount + 1);
+            checkLeadModal();
+
         } catch (error) {
             showError('Erro de conexão com o servidor: ' + error.message);
         } finally {
@@ -417,8 +421,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnLeadSkip = document.getElementById('btn-lead-skip');
     const leadError = document.getElementById('lead-error');
 
-    if (!localStorage.getItem('ibscbs_lead_done')) {
-        leadModal.classList.remove('hidden');
+    function checkLeadModal() {
+        if (localStorage.getItem('ibscbs_lead_done')) return;
+        const count = parseInt(localStorage.getItem('ibscbs_scan_count') || '0', 10);
+        if (count >= 5) leadModal.classList.remove('hidden');
     }
 
     leadForm.addEventListener('submit', async (e) => {
