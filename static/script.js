@@ -376,4 +376,43 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // --- Lead Capture Modal ---
+    const leadModal = document.getElementById('lead-modal');
+    const leadForm = document.getElementById('lead-form');
+    const btnLeadSkip = document.getElementById('btn-lead-skip');
+    const leadError = document.getElementById('lead-error');
+
+    if (!localStorage.getItem('ibscbs_lead_done')) {
+        leadModal.classList.remove('hidden');
+    }
+
+    leadForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const nome = document.getElementById('lead-nome').value.trim();
+        const email = document.getElementById('lead-email').value.trim();
+
+        const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        if (!nome || !emailValid) {
+            leadError.classList.remove('hidden');
+            return;
+        }
+        leadError.classList.add('hidden');
+
+        try {
+            await fetch('/api/capture-lead', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nome, email }),
+            });
+        } catch (_) { /* silent — não bloquear o usuário */ }
+
+        localStorage.setItem('ibscbs_lead_done', '1');
+        leadModal.classList.add('hidden');
+    });
+
+    btnLeadSkip.addEventListener('click', () => {
+        localStorage.setItem('ibscbs_lead_done', '1');
+        leadModal.classList.add('hidden');
+    });
 });

@@ -151,6 +151,35 @@
 
     </main>
 
+    <!-- Lead Capture Modal -->
+    <div id="lead-modal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <span class="material-symbols-outlined icon-large text-primary" style="margin-bottom: 12px;">waving_hand</span>
+            <h2 class="md-headline" style="margin-bottom: 8px;">Bem-vindo!</h2>
+            <p class="md-body-text" style="margin-bottom: 24px; color: var(--md-sys-color-on-surface-variant);">
+                Para continuar, informe seus dados de contato.
+            </p>
+            <form id="lead-form" novalidate>
+                <div class="modal-field">
+                    <label for="lead-nome">Nome</label>
+                    <input type="text" id="lead-nome" placeholder="Seu nome completo" autocomplete="name">
+                </div>
+                <div class="modal-field">
+                    <label for="lead-email">E-mail</label>
+                    <input type="email" id="lead-email" placeholder="seu@email.com" autocomplete="email">
+                </div>
+                <p id="lead-error" class="lead-error hidden">Preencha nome e e-mail válidos.</p>
+                <div class="modal-actions">
+                    <button type="button" class="modal-skip" id="btn-lead-skip">Pular por agora</button>
+                    <button type="submit" class="md-btn md-btn-filled">
+                        <span class="material-symbols-outlined">check</span>
+                        Continuar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="/static/script.js"></script>
 </body>
 

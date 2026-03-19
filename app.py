@@ -121,6 +121,25 @@ def scan_ibs():
             cleanup_directory(temp_dir)
 
 
+@app.route("/api/capture-lead", methods=["POST"])
+def capture_lead():
+    """Persist a user lead (name + email) to leads.txt."""
+    data = request.get_json(silent=True) or {}
+    nome = str(data.get("nome", "")).strip()
+    email = str(data.get("email", "")).strip()
+
+    if not nome or not email:
+        return jsonify({"success": False, "error": "Nome e e-mail são obrigatórios."}), 400
+
+    leads_file = os.path.join(os.path.dirname(__file__), "leads.txt")
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    with open(leads_file, "a", encoding="utf-8") as f:
+        f.write(f"{timestamp} | {nome} | {email}\n")
+
+    logger.info("Lead capturado: %s <%s>", nome, email)
+    return jsonify({"success": True})
+
+
 @app.route("/api/export-pdf", methods=["GET"])
 def export_pdf():
     """Export scan results as a PDF report."""
