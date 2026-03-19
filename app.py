@@ -76,6 +76,25 @@ def _get_result(scan_id: str) -> list[dict] | None:
         return results
 
 
+# --- Security headers ---
+
+@app.after_request
+def add_security_headers(response):
+    """Attach security headers to every response."""
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["Content-Security-Policy"] = (
+        "default-src 'self'; "
+        "script-src 'self'; "
+        "style-src 'self' https://fonts.googleapis.com; "
+        "font-src 'self' https://fonts.gstatic.com; "
+        "img-src 'self' data:; "
+        "connect-src 'self';"
+    )
+    return response
+
+
 # --- Error handlers ---
 
 @app.errorhandler(RequestEntityTooLarge)
@@ -123,9 +142,9 @@ def scan_ibs():
         })
     except ValueError as exc:
         return jsonify({"success": False, "error": str(exc)}), 400
-    except Exception as exc:
+    except Exception:
         logger.exception("Unexpected error during scan")
-        return jsonify({"success": False, "error": str(exc)}), 500
+        return jsonify({"success": False, "error": "Erro interno ao processar os arquivos."}), 500
     finally:
         _scan_semaphore.release()
         if temp_dir:
@@ -136,11 +155,14 @@ def scan_ibs():
 def capture_lead():
     """Persist a user lead (name + email) to leads.txt."""
     data = request.get_json(silent=True) or {}
-    nome = str(data.get("nome", "")).strip()
-    email = str(data.get("email", "")).strip()
+    nome = "".join(c for c in str(data.get("nome", "")) if c >= " ").strip()
+    email = "".join(c for c in str(data.get("email", "")) if c >= " ").strip()
 
     if not nome or not email:
         return jsonify({"success": False, "error": "Nome e e-mail são obrigatórios."}), 400
+
+    if len(nome) > 200 or len(email) > 254:
+        return jsonify({"success": False, "error": "Dados inválidos."}), 400
 
     leads_file = os.path.join(os.path.dirname(__file__), "leads.txt")
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -173,9 +195,9 @@ def export_pdf():
             as_attachment=True,
             download_name=filename,
         )
-    except Exception as exc:
+    except Exception:
         logger.exception("Error generating PDF report")
-        return jsonify({"error": str(exc)}), 500
+        return jsonify({"error": "Erro interno ao gerar o relatório PDF."}), 500
 
 
 if __name__ == "__main__":
