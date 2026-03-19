@@ -377,6 +377,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Info Modal ---
+    const infoModal = document.getElementById('info-modal');
+    document.getElementById('btn-info-open').addEventListener('click', () => {
+        infoModal.classList.remove('hidden');
+    });
+    document.getElementById('btn-info-close').addEventListener('click', () => {
+        infoModal.classList.add('hidden');
+    });
+    infoModal.addEventListener('click', (e) => {
+        if (e.target === infoModal) infoModal.classList.add('hidden');
+    });
+
     // --- Lead Capture Modal ---
     const leadModal = document.getElementById('lead-modal');
     const leadForm = document.getElementById('lead-form');

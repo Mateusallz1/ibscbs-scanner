@@ -472,6 +472,31 @@ body.md-body {
     transform: rotate(180deg);
 }
 
+/* Floating Action Button */
+.md-fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-on-primary-container);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+    transition: box-shadow 0.2s, transform 0.2s;
+    z-index: 100;
+}
+
+.md-fab:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.55);
+    transform: translateY(-2px);
+}
+
 /* Lead Capture Modal */
 .modal-overlay {
     position: fixed;
@@ -511,6 +536,58 @@ body.md-body {
     font-size: 14px;
     line-height: 1.5;
     margin: 4px 0 20px;
+}
+
+/* Info Modal — must come after .modal-card to override max-width */
+.modal-card--info {
+    max-width: 800px;
+    text-align: left;
+    align-items: flex-start;
+    gap: 0;
+}
+
+.modal-card--info .md-body-text {
+    text-align: left;
+    margin: 0;
+}
+
+.modal-card--info .info-formats {
+    flex-wrap: nowrap;
+}
+
+.modal-card--info .info-format-chip {
+    min-width: 210px;
+    white-space: nowrap;
+}
+
+.info-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.info-modal-header .info-header {
+    margin-bottom: 0;
+}
+
+.modal-close-btn {
+    background: none;
+    border: none;
+    color: var(--md-sys-color-on-surface-variant);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+    flex-shrink: 0;
+}
+
+.modal-close-btn:hover {
+    background: rgba(202, 196, 208, 0.12);
 }
 
 .modal-field {
