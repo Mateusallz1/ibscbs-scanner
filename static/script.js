@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let iconHtml = '';
         if (hasIbs) {
             if (hasMissingIbs) {
-                iconHtml = `<span class="material-symbols-outlined" style="color: #FBC02D;">warning</span>`;
+                iconHtml = `<span class="material-symbols-outlined text-warning">warning</span>`;
             } else {
                 iconHtml = `<span class="material-symbols-outlined text-success">check_circle</span>`;
             }
