@@ -11,6 +11,7 @@ import shutil
 import zipfile
 
 import rarfile
+from werkzeug.utils import secure_filename
 
 from utils.config import MAX_ARCHIVE_ROOT_ITEMS, MAX_EXTRACTED_FILES, MAX_EXTRACTED_SIZE_MB
 
