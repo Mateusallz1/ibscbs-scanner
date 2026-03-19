@@ -9,6 +9,8 @@ import logging
 import os
 import sys
 import threading
+import urllib.parse
+import urllib.request
 import uuid
 from datetime import datetime
 
@@ -169,8 +171,29 @@ def capture_lead():
     with open(leads_file, "a", encoding="utf-8") as f:
         f.write(f"{timestamp} | {nome} | {email}\n")
 
+    threading.Thread(target=_submit_lead_to_google_form, args=(nome, email), daemon=True).start()
+
     logger.info("Lead capturado: %s <%s>", nome, email)
     return jsonify({"success": True})
+
+
+def _submit_lead_to_google_form(nome: str, email: str) -> None:
+    """POST lead silenciosamente ao Google Apps Script em background."""
+    _SCRIPT_URL = (
+        "https://script.google.com/macros/s/"
+        "AKfycbzw28aUDEsNijDeRfKZhTcUh2f_oSxz5EDUXRrEX50mGBC7i_uy9Orha4Wu3OwcyAJI5w/exec"
+    )
+    payload = urllib.parse.urlencode({
+        "nome": nome,
+        "email": email,
+    }).encode("utf-8")
+    try:
+        req = urllib.request.Request(_SCRIPT_URL, data=payload, method="POST")
+        req.add_header("Content-Type", "application/x-www-form-urlencoded")
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            logger.info("Lead enviado ao Google Sheets. Status: %s", resp.status)
+    except Exception as exc:
+        logger.warning("Falha ao enviar lead ao Google Sheets: %s — %s", type(exc).__name__, exc)
 
 
 @app.route("/api/export-pdf", methods=["GET"])
