@@ -21,7 +21,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 import relatorio_pdf  # noqa: E402
 from services.file_processor import process_upload  # noqa: E402
 from services.invoice_scanner import scan_directory  # noqa: E402
-from utils.config import MAX_UPLOAD_SIZE_MB  # noqa: E402
+from utils.config import MAX_CONCURRENT_SCANS, MAX_UPLOAD_SIZE_MB  # noqa: E402
 from utils.file_utils import cleanup_directory  # noqa: E402
 
 # --- Logging ---
@@ -34,6 +34,9 @@ logger = logging.getLogger(__name__)
 # --- App ---
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = MAX_UPLOAD_SIZE_MB * 1024 * 1024
+
+# --- Concurrency control ---
+_scan_semaphore = threading.Semaphore(MAX_CONCURRENT_SCANS)
 
 # --- Thread-safe scan result storage (keyed by UUID) ---
 _scan_results: dict[str, list[dict]] = {}
@@ -100,6 +103,13 @@ def scan_ibs():
 
     files = request.files.getlist("files")
 
+    acquired = _scan_semaphore.acquire(blocking=False)
+    if not acquired:
+        return jsonify({
+            "success": False,
+            "error": "Servidor ocupado. Aguarde um momento e tente novamente.",
+        }), 429
+
     temp_dir = None
     try:
         temp_dir, target_dir = process_upload(files)
@@ -117,6 +127,7 @@ def scan_ibs():
         logger.exception("Unexpected error during scan")
         return jsonify({"success": False, "error": str(exc)}), 500
     finally:
+        _scan_semaphore.release()
         if temp_dir:
             cleanup_directory(temp_dir)
 

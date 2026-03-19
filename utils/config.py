@@ -42,6 +42,10 @@ VALID_XML_ROOTS: set[str] = {
 MAX_UPLOAD_SIZE_MB = 50
 ALLOWED_EXTENSIONS: set[str] = {".zip", ".rar", ".xml"}
 
+# Concurrency: max number of /api/scan requests processed simultaneously.
+# Requests that arrive while the limit is reached receive HTTP 429.
+MAX_CONCURRENT_SCANS = 3
+
 # Archive extraction: max items at root level before treating
 # the entire extraction folder as the target directory
 MAX_ARCHIVE_ROOT_ITEMS = 3
