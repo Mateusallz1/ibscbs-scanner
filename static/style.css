@@ -49,13 +49,13 @@
 
 /* Light Theme Overrides */
 body[data-theme="light"] {
-    --md-sys-color-background: #F4F6F4;
+    --md-sys-color-background: #FFFFFF;
     --md-sys-color-on-background: #1C1B1F;
 
-    --md-sys-color-surface: #F4F6F4;
-    --md-sys-color-surface-container-low: #ECEEED;
-    --md-sys-color-surface-container: #E4E8E4;
-    --md-sys-color-surface-container-high: #D6DBD6;
+    --md-sys-color-surface: #FFFFFF;
+    --md-sys-color-surface-container-low: #FFFFFF;
+    --md-sys-color-surface-container: #F5F5F5;
+    --md-sys-color-surface-container-high: #F8F9FA;
 
     --md-sys-color-on-surface: #1C1B1F;
     --md-sys-color-on-surface-variant: #49454F;
@@ -122,6 +122,32 @@ body[data-theme="light"] .md-fab:hover {
 
 body[data-theme="light"] .md-btn-filled:hover:not(:disabled) {
     background-color: #178030;
+}
+
+/* Summary cards — mesma cor dos cards de resultado */
+body[data-theme="light"] .surface-container-low {
+    background-color: #F5F5F5;
+}
+
+/* List items e chips internos dos cards */
+body[data-theme="light"] .md-list-item {
+    background-color: #F8F9FA;
+}
+
+body[data-theme="light"] .md-list-item:hover {
+    background-color: #EEEEEE;
+}
+
+body[data-theme="light"] .tag-chip {
+    background-color: rgba(0, 0, 0, 0.07);
+}
+
+body[data-theme="light"] .selected-file-info {
+    background: #FFFFFF;
+}
+
+body[data-theme="light"] .drop-area {
+    background: rgba(0, 0, 0, 0.01);
 }
 
 /* Base Body Styles */

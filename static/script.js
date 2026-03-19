@@ -391,7 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    applyTheme(localStorage.getItem('ibscbs_theme') || 'dark');
+    applyTheme(localStorage.getItem('ibscbs_theme') || 'light');
 
     btnThemeToggle.addEventListener('click', () => {
         const next = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
