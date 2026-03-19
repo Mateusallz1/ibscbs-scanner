@@ -47,6 +47,83 @@
     --md-sys-motion-easing-standard: cubic-bezier(0.2, 0.0, 0, 1.0);
 }
 
+/* Light Theme Overrides */
+body[data-theme="light"] {
+    --md-sys-color-background: #F4F6F4;
+    --md-sys-color-on-background: #1C1B1F;
+
+    --md-sys-color-surface: #F4F6F4;
+    --md-sys-color-surface-container-low: #ECEEED;
+    --md-sys-color-surface-container: #E4E8E4;
+    --md-sys-color-surface-container-high: #D6DBD6;
+
+    --md-sys-color-on-surface: #1C1B1F;
+    --md-sys-color-on-surface-variant: #49454F;
+
+    --md-sys-color-primary: #1A6B35;
+    --md-sys-color-on-primary: #FFFFFF;
+    --md-sys-color-primary-container: #ABEABD;
+    --md-sys-color-on-primary-container: #002111;
+
+    --md-sys-color-secondary: #4A6354;
+
+    --md-sys-color-error: #B3261E;
+    --md-sys-color-on-error: #FFFFFF;
+    --md-sys-color-error-container: #F9DEDC;
+    --md-sys-color-success: #1A6B35;
+
+    --md-elevation-1: 0 1px 2px 0 rgba(0,0,0,0.12), 0 1px 3px 1px rgba(0,0,0,0.06);
+    --md-elevation-2: 0 1px 2px 0 rgba(0,0,0,0.12), 0 2px 6px 2px rgba(0,0,0,0.06);
+    --md-elevation-3: 0 4px 8px 3px rgba(0,0,0,0.06), 0 1px 3px 0 rgba(0,0,0,0.12);
+}
+
+/* Hardcoded color overrides for light mode */
+body[data-theme="light"] .drop-area {
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+body[data-theme="light"] .drop-area:hover,
+body[data-theme="light"] .drop-area.active {
+    background: rgba(0, 0, 0, 0.04);
+}
+
+body[data-theme="light"] .md-text-field input:focus::placeholder {
+    color: rgba(0, 0, 0, 0.3);
+}
+
+body[data-theme="light"] .modal-overlay {
+    background: rgba(0, 0, 0, 0.35);
+}
+
+body[data-theme="light"] .modal-field input {
+    border-color: rgba(73, 69, 79, 0.3);
+}
+
+body[data-theme="light"] .modal-field input:focus {
+    box-shadow: 0 0 0 3px rgba(26, 107, 53, 0.18);
+}
+
+body[data-theme="light"] .modal-close-btn:hover,
+body[data-theme="light"] .theme-toggle-btn:hover {
+    background: rgba(73, 69, 79, 0.1);
+}
+
+body[data-theme="light"] .info-legend {
+    border-top-color: rgba(73, 69, 79, 0.15);
+}
+
+body[data-theme="light"] .md-fab {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+body[data-theme="light"] .md-fab:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
+}
+
+body[data-theme="light"] .md-btn-filled:hover:not(:disabled) {
+    background-color: #178030;
+}
+
 /* Base Body Styles */
 body.md-body {
     margin: 0;
@@ -105,6 +182,26 @@ body.md-body {
     max-width: 1200px;
     margin: 0 auto;
     width: 100%;
+    position: relative;
+}
+
+.theme-toggle-btn {
+    background: none;
+    border: none;
+    color: var(--md-sys-color-on-surface);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+    position: absolute;
+    right: 0;
+}
+
+.theme-toggle-btn:hover {
+    background: rgba(202, 196, 208, 0.12);
 }
 
 .md-icon {

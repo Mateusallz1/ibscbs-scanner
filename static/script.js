@@ -377,6 +377,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Theme Toggle ---
+    const btnThemeToggle = document.getElementById('btn-theme-toggle');
+    const themeToggleIcon = document.getElementById('theme-toggle-icon');
+
+    function applyTheme(theme) {
+        if (theme === 'light') {
+            document.body.setAttribute('data-theme', 'light');
+            themeToggleIcon.textContent = 'dark_mode';
+        } else {
+            document.body.removeAttribute('data-theme');
+            themeToggleIcon.textContent = 'light_mode';
+        }
+    }
+
+    applyTheme(localStorage.getItem('ibscbs_theme') || 'dark');
+
+    btnThemeToggle.addEventListener('click', () => {
+        const next = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        localStorage.setItem('ibscbs_theme', next);
+        applyTheme(next);
+    });
+
     // --- Info Modal ---
     const infoModal = document.getElementById('info-modal');
     document.getElementById('btn-info-open').addEventListener('click', () => {
