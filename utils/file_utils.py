@@ -8,10 +8,11 @@ and archive extraction root detection.
 import logging
 import os
 import shutil
+import zipfile
 
-from werkzeug.utils import secure_filename
+import rarfile
 
-from utils.config import MAX_ARCHIVE_ROOT_ITEMS
+from utils.config import MAX_ARCHIVE_ROOT_ITEMS, MAX_EXTRACTED_FILES, MAX_EXTRACTED_SIZE_MB
 
 logger = logging.getLogger(__name__)
 
@@ -69,6 +70,72 @@ def cleanup_directory(path: str) -> None:
         shutil.rmtree(path, ignore_errors=False)
     except Exception:
         logger.warning("Failed to clean up directory: %s", path, exc_info=True)
+
+
+def validate_archive_bomb(archive_path: str) -> None:
+    """Pre-extraction zip/rar bomb protection.
+
+    Inspects archive metadata to ensure the total uncompressed size and
+    file count stay within configured limits. Raises ``ValueError`` if
+    either limit is exceeded.
+
+    Note: ZIP metadata can be forged (file_size set to 0). A second
+    on-disk check after extraction is performed by
+    ``validate_extracted_size``.
+
+    Args:
+        archive_path: Path to the archive file (.zip or .rar).
+    """
+    ext = os.path.splitext(archive_path)[1].lower()
+    max_bytes = MAX_EXTRACTED_SIZE_MB * 1024 * 1024
+
+    if ext == ".zip":
+        with zipfile.ZipFile(archive_path) as zf:
+            entries = zf.infolist()
+            file_count = len(entries)
+            total_size = sum(e.file_size for e in entries)
+    elif ext == ".rar":
+        with rarfile.RarFile(archive_path) as rf:
+            entries = [e for e in rf.infolist() if not e.isdir()]
+            file_count = len(entries)
+            total_size = sum(e.file_size for e in entries)
+    else:
+        return
+
+    if file_count > MAX_EXTRACTED_FILES:
+        raise ValueError(
+            f"O arquivo contém {file_count:,} arquivos. "
+            f"O limite é {MAX_EXTRACTED_FILES:,}."
+        )
+
+    if total_size > max_bytes:
+        size_mb = total_size / (1024 * 1024)
+        raise ValueError(
+            f"Conteúdo descompactado ({size_mb:.0f} MB) excede o limite de "
+            f"{MAX_EXTRACTED_SIZE_MB} MB."
+        )
+
+
+def validate_extracted_size(extract_dir: str) -> None:
+    """Post-extraction size check to catch forged ZIP metadata.
+
+    Walks the extraction directory and sums actual file sizes on disk.
+    Raises ``ValueError`` if the total exceeds the configured limit.
+
+    Args:
+        extract_dir: Directory that was just extracted into.
+    """
+    max_bytes = MAX_EXTRACTED_SIZE_MB * 1024 * 1024
+    total = 0
+    for dir_path, _dirs, filenames in os.walk(extract_dir):
+        for fname in filenames:
+            total += os.path.getsize(os.path.join(dir_path, fname))
+            if total > max_bytes:
+                size_mb = total / (1024 * 1024)
+                raise ValueError(
+                    f"Conteúdo extraído ({size_mb:.0f} MB) excede o limite de "
+                    f"{MAX_EXTRACTED_SIZE_MB} MB."
+                )
 
 
 def validate_paths_within(base_dir: str, paths: list[str]) -> None:

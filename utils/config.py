@@ -46,6 +46,10 @@ ALLOWED_EXTENSIONS: set[str] = {".zip", ".rar", ".xml"}
 # Requests that arrive while the limit is reached receive HTTP 429.
 MAX_CONCURRENT_SCANS = 3
 
+# Archive bomb protection
+MAX_EXTRACTED_SIZE_MB = 200    # max total uncompressed size across all files
+MAX_EXTRACTED_FILES = 10_000   # max number of files inside the archive
+
 # Archive extraction: max items at root level before treating
 # the entire extraction folder as the target directory
 MAX_ARCHIVE_ROOT_ITEMS = 3

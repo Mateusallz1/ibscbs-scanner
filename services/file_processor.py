@@ -19,6 +19,8 @@ from utils.file_utils import (
     cleanup_directory,
     find_extraction_root,
     sanitize_filename,
+    validate_archive_bomb,
+    validate_extracted_size,
     validate_paths_within,
 )
 from utils.validators import validate_uploaded_files
@@ -66,6 +68,9 @@ def _extract_archive(archive, temp_dir: str) -> str:
     archive_path = os.path.join(temp_dir, safe_name)
     archive.save(archive_path)
 
+    # Bomb protection: check metadata before extracting
+    validate_archive_bomb(archive_path)
+
     extract_dir = os.path.join(temp_dir, "extracted")
     os.makedirs(extract_dir, exist_ok=True)
 
@@ -76,6 +81,9 @@ def _extract_archive(archive, temp_dir: str) -> str:
         patoolib.extract_archive(
             archive_path, outdir=extract_dir, interactive=False,
         )
+
+    # Bomb protection: verify actual disk size (catches forged ZIP metadata)
+    validate_extracted_size(extract_dir)
 
     # Zip-slip protection: ensure all extracted files stay inside temp_dir
     extracted_paths = []
