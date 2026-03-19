@@ -29,6 +29,68 @@
 
     <main class="md-main-container">
 
+        <!-- About Section -->
+        <section class="md-card elevation-1 info-section">
+            <div class="md-card-content">
+
+                <div class="info-header">
+                    <span class="material-symbols-outlined text-primary">menu_book</span>
+                    <h2 class="md-headline">Sobre esta ferramenta</h2>
+                </div>
+
+                <p class="md-body-text">
+                    A <strong>Reforma Tributária</strong> (LC&nbsp;214/2025) institui o <strong>IBS</strong>
+                    (Imposto sobre Bens e Serviços) e a <strong>CBS</strong> (Contribuição sobre Bens e Serviços),
+                    que substituirão progressivamente o ICMS, ISS, PIS e COFINS. A partir de 2026, as notas fiscais
+                    eletrônicas passam a registrar esses novos tributos no campo <code class="inline-code">IBSCBS</code>.
+                </p>
+                <p class="md-body-text" style="margin-top: 8px;">
+                    Esta ferramenta varre os arquivos XML enviados e identifica quais empresas já declaram o IBSCBS
+                    em suas notas, sinalizando aquelas que ainda precisam se adequar à nova obrigação tributária.
+                </p>
+
+                <div class="info-formats">
+                    <div class="info-format-chip">
+                        <span class="material-symbols-outlined">receipt_long</span>
+                        <div>
+                            <span class="format-name">NF-e</span>
+                            <span class="format-desc">Nota Fiscal Eletrônica</span>
+                        </div>
+                    </div>
+                    <div class="info-format-chip">
+                        <span class="material-symbols-outlined">storefront</span>
+                        <div>
+                            <span class="format-name">NFC-e</span>
+                            <span class="format-desc">Nota Fiscal ao Consumidor</span>
+                        </div>
+                    </div>
+                    <div class="info-format-chip">
+                        <span class="material-symbols-outlined">home_repair_service</span>
+                        <div>
+                            <span class="format-name">NFS-e</span>
+                            <span class="format-desc">Nota Fiscal de Serviços</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-legend">
+                    <div class="legend-item">
+                        <span class="material-symbols-outlined text-success legend-icon">check_circle</span>
+                        <span class="md-body-text"><strong>Com IBS e CBS</strong> — A empresa já registra o IBS e a CBS em todas as notas. Adequada ao novo regime tributário.</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="material-symbols-outlined text-warning legend-icon">warning</span>
+                        <span class="md-body-text"><strong>Parcial</strong> — A empresa registra o IBS e a CBS em parte das notas, mas não em todas. Pode indicar emissores mistos ou transição incompleta.</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="material-symbols-outlined text-error legend-icon">cancel</span>
+                        <span class="md-body-text"><strong>Sem IBS e CBS</strong> — A empresa não registra os novos tributos. Pode necessitar de adequação ou atualização do emissor.</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
         <!-- Input Card -->
         <section class="md-card elevation-1">
             <div class="md-card-content">
