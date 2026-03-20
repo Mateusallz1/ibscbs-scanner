@@ -418,13 +418,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Lead Capture Modal ---
     const leadModal = document.getElementById('lead-modal');
     const leadForm = document.getElementById('lead-form');
-    const btnLeadSkip = document.getElementById('btn-lead-skip');
     const leadError = document.getElementById('lead-error');
 
     function checkLeadModal() {
         if (localStorage.getItem('ibscbs_lead_done')) return;
         const count = parseInt(localStorage.getItem('ibscbs_scan_count') || '0', 10);
-        if (count >= 5) leadModal.classList.remove('hidden');
+        if (count >= 2) leadModal.classList.remove('hidden');
     }
 
     leadForm.addEventListener('submit', async (e) => {
@@ -451,8 +450,4 @@ document.addEventListener('DOMContentLoaded', () => {
         leadModal.classList.add('hidden');
     });
 
-    btnLeadSkip.addEventListener('click', () => {
-        localStorage.setItem('ibscbs_lead_done', '1');
-        leadModal.classList.add('hidden');
-    });
 });
