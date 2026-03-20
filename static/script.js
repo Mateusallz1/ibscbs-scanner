@@ -266,22 +266,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     detailHtml += `<div class="company-detail-item text-[13px]"><strong class="text-base-content/80">${escapeHtml(tipo)}</strong>: ${statusText}</div>`;
 
                     if (stats.xmls_com_ibs > 0) {
-                        detailHtml += `<div class="ml-2 flex flex-col gap-1.5 mt-1.5">`;
+                        detailHtml += `<div class="sm:ml-2 flex flex-col gap-1.5 mt-1.5">`;
                         stats.arquivos.forEach(([arq, tags]) => {
-                            const tagsChips = tags.map(t => `<span class="badge badge-outline badge-sm opacity-60 text-[10px] py-0 h-4 border-base-content/20 ml-1">${escapeHtml(t)}</span>`).join('');
-                            detailHtml += `<div class="text-[12px] flex flex-wrap items-center gap-1 text-base-content/80"><span class="opacity-60">\ud83d\udcc4</span> ${escapeHtml(arq)}${tagsChips}</div>`;
+                            const tagsChips = tags.map(t => `<span class="badge badge-outline badge-sm opacity-60 text-[10px] py-0 h-4 border-base-content/20 shrink-0">${escapeHtml(t)}</span>`).join('');
+                            detailHtml += `<div class="text-[11px] sm:text-[12px] flex flex-wrap items-center gap-1 text-base-content/80"><span class="opacity-60 shrink-0">\ud83d\udcc4</span><span class="break-all">${escapeHtml(arq)}</span>${tagsChips}</div>`;
                         });
                         detailHtml += `</div>`;
                     }
                     if (stats.todos_arquivos && stats.todos_arquivos.length > 0) {
                         const notasSemIbs = stats.todos_arquivos.filter(arq => !stats.arquivos.some(a => a[0] === arq));
                         if (notasSemIbs.length > 0) {
-                            detailHtml += `<div class="ml-2 mt-3 text-warning text-[12px] font-bold">Atenção: Notas sem IBSCBS identificadas:</div>`;
-                            detailHtml += `<div class="ml-2 flex flex-col items-start gap-1.5 mt-2 mb-2">`;
+                            detailHtml += `<div class="sm:ml-2 mt-3 text-warning text-[11px] sm:text-[12px] font-bold">Atenção: Notas sem IBSCBS identificadas:</div>`;
+                            detailHtml += `<div class="sm:ml-2 flex flex-col items-start gap-1.5 mt-2 mb-2">`;
                             notasSemIbs.forEach(arq => {
-                                detailHtml += `<div class="flex items-center gap-1.5 text-warning bg-warning/10 px-2 py-1 rounded text-[11px] font-semibold border border-warning/20">
-                                    <span class="material-symbols-outlined text-[14px]">warning</span>
-                                    <span>\ud83d\udcc4 ${escapeHtml(arq)}</span>
+                                detailHtml += `<div class="flex items-start gap-1.5 text-warning bg-warning/10 px-2 py-1.5 rounded text-[10px] sm:text-[11px] font-semibold border border-warning/20">
+                                    <span class="material-symbols-outlined text-[14px] shrink-0 mt-0.5">warning</span>
+                                    <span class="break-all">\ud83d\udcc4 ${escapeHtml(arq)}</span>
                                 </div>`;
                             });
                             detailHtml += `</div>`;
@@ -302,9 +302,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             detailHtml = `<div class="company-details flex-col gap-2 border-t border-base-300 pt-3 mt-3"><div class="company-detail-item text-[13px] font-medium opacity-80">${total} nota(s) analisada(s)</div>`;
             if (arquivosVistos.length > 0) {
-                detailHtml += `<div class="ml-2 mt-1 flex flex-col gap-1">`;
+                detailHtml += `<div class="sm:ml-2 mt-1 flex flex-col gap-1">`;
                 arquivosVistos.forEach(arq => {
-                    detailHtml += `<div class="text-[12px] text-base-content/80 flex gap-2 overflow-hidden"><span class="opacity-60">\ud83d\udcc4</span><span class="truncate">${escapeHtml(arq)}</span></div>`;
+                    detailHtml += `<div class="text-[11px] sm:text-[12px] text-base-content/80 flex gap-2"><span class="opacity-60 shrink-0">\ud83d\udcc4</span><span class="break-all">${escapeHtml(arq)}</span></div>`;
                 });
                 detailHtml += `</div>`;
             }
@@ -326,15 +326,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const companyCnpj = empresa.cnpj && empresa.cnpj !== 'Desconhecido' ? escapeHtml(empresa.cnpj) : '';
 
         item.innerHTML = `
-            <div class="flex justify-between items-start company-name">
-                <div class="flex gap-3 items-start">
-                    ${iconHtml}
-                    <div class="flex flex-col gap-0.5">
-                        <span class="font-bold text-[14px] leading-tight text-base-content">${companyName}</span>
-                        <span class="text-[12px] font-semibold text-base-content/50">${companyCnpj}</span>
+            <div class="flex justify-between items-start company-name gap-2">
+                <div class="flex gap-2 sm:gap-3 items-start min-w-0">
+                    <span class="shrink-0">${iconHtml}</span>
+                    <div class="flex flex-col gap-0.5 min-w-0">
+                        <span class="font-bold text-[13px] sm:text-[14px] leading-tight text-base-content break-words">${companyName}</span>
+                        <span class="text-[11px] sm:text-[12px] font-semibold text-base-content/50">${companyCnpj}</span>
                     </div>
                 </div>
-                <span class="material-symbols-outlined expand-icon text-base-content/40 transition-transform">expand_more</span>
+                <span class="material-symbols-outlined expand-icon text-base-content/40 transition-transform shrink-0">expand_more</span>
             </div>
             ${detailHtml}
         `;

@@ -47,7 +47,7 @@
         </nav>
         
         <!-- Main Form & Dashboard -->
-        <main class="grid p-4 md:p-8 gap-6 max-w-5xl w-full mx-auto">
+        <main class="grid p-3 sm:p-4 md:p-8 gap-4 sm:gap-6 max-w-5xl w-full mx-auto">
 
             <!-- Input Card Component -->
             <section class="card bg-base-100 shadow-xl overflow-hidden border border-base-200">
@@ -56,26 +56,26 @@
                     <p class="text-sm md:text-base text-base-content/70">Arraste e solte arquivos compactados (.zip, .rar) ou arquivos XML individuais.</p>
 
                     <form id="scan-form" class="flex flex-col gap-6 mt-4">
-                        <div id="drop-area" class="border-2 border-dashed border-base-300 rounded-2xl p-8 text-center transition-colors cursor-pointer hover:bg-base-200/50 w-full flex flex-col items-center justify-center gap-2">
-                            <span class="material-symbols-outlined text-4xl text-base-content/40 mb-2">drive_folder_upload</span>
-                            <h3 class="font-semibold text-lg">Solte arquivos .zip, .rar ou .xml aqui</h3>
-                            <p class="text-sm text-base-content/60 mb-2">Ou selecione via botão</p>
+                        <div id="drop-area" class="border-2 border-dashed border-base-300 rounded-2xl p-4 sm:p-8 text-center transition-colors cursor-pointer hover:bg-base-200/50 w-full flex flex-col items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-4xl text-base-content/40 mb-2 hidden sm:block">drive_folder_upload</span>
+                            <h3 class="font-semibold text-base sm:text-lg">Solte arquivos .zip, .rar ou .xml aqui</h3>
+                            <p class="text-xs sm:text-sm text-base-content/60 mb-2">Ou selecione via botão</p>
                             <!-- Official DaisyUI File Input Component -->
                             <input type="file" id="file-input"
                                 accept=".zip,.rar,.xml,application/zip,application/x-rar-compressed,text/xml,application/xml"
-                                multiple class="file-input file-input-bordered file-input-neutral w-full max-w-xs relative z-10 pointer-events-none">
+                                multiple class="file-input file-input-bordered file-input-neutral file-input-sm sm:file-input-md w-full max-w-xs relative z-10 pointer-events-none">
                         </div>
 
-                        <div id="selected-file-info" class="hidden flex items-center gap-3 p-4 bg-base-200 rounded-xl border border-base-300">
-                            <span class="material-symbols-outlined text-primary text-2xl">description</span>
-                            <div class="flex flex-col">
+                        <div id="selected-file-info" class="hidden flex items-center gap-3 p-3 sm:p-4 bg-base-200 rounded-xl border border-base-300 min-w-0">
+                            <span class="material-symbols-outlined text-neutral text-2xl shrink-0">description</span>
+                            <div class="flex flex-col min-w-0">
                                 <span class="text-[11px] text-base-content/60 font-bold uppercase tracking-wider">Arquivos Selecionados</span>
-                                <div id="file-names" class="font-medium text-sm"></div>
+                                <div id="file-names" class="font-medium text-xs sm:text-sm truncate"></div>
                             </div>
                         </div>
 
                         <div class="card-actions justify-end mt-2">
-                            <button type="submit" class="btn btn-neutral px-8 rounded-full shadow-md" id="btn-scan" disabled>
+                            <button type="submit" class="btn btn-neutral btn-sm sm:btn-md px-6 sm:px-8 rounded-full shadow-md" id="btn-scan" disabled>
                                 <span class="material-symbols-outlined text-[20px]">search</span>
                                 Processar Arquivos
                             </button>
@@ -100,7 +100,7 @@
                 <!-- Official Daisy UI Stats Component Layout -->
                 <div class="stats stats-vertical bg-base-100 shadow-md lg:stats-horizontal border border-base-200" id="dashboard-summary">
                     <div class="stat">
-                        <div class="stat-figure text-primary">
+                        <div class="stat-figure text-neutral">
                             <span class="material-symbols-outlined text-4xl">analytics</span>
                         </div>
                         <div class="stat-title font-medium text-base-content/60">Empresas Analisadas</div>
@@ -160,8 +160,8 @@
                 </div>
 
                 <!-- Botões de ação -->
-                <div class="flex justify-end mt-2 dashboard-actions">
-                    <button type="button" class="btn btn-neutral rounded-full px-6 shadow-md" id="btn-export-pdf"
+                <div class="flex justify-center sm:justify-end mt-2 dashboard-actions">
+                    <button type="button" class="btn btn-neutral btn-sm sm:btn-md rounded-full px-6 shadow-md w-full sm:w-auto" id="btn-export-pdf"
                         title="Gerar relatório em PDF com análises detalhadas">
                         <span class="material-symbols-outlined text-[20px]">picture_as_pdf</span>
                         Gerar Relatório PDF
@@ -178,7 +178,7 @@
           <ul class="menu w-full grow mt-4">
             <li>
                 <button class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Scanner" onclick="window.scrollTo(0,0)">
-                    <span class="material-symbols-outlined my-1.5 inline-block text-[22px] text-primary">document_scanner</span>
+                    <span class="material-symbols-outlined my-1.5 inline-block text-[22px] text-neutral">document_scanner</span>
                     <span class="is-drawer-close:hidden font-semibold">Scanner</span>
                 </button>
             </li>
@@ -197,12 +197,12 @@
 
     <!-- Info Modal -->
     <dialog id="info-modal" class="modal modal-bottom sm:modal-middle">
-        <div class="modal-box w-11/12 max-w-2xl p-6 md:p-8 rounded-t-3xl sm:rounded-3xl">
+        <div class="modal-box w-full sm:w-11/12 max-w-2xl p-4 sm:p-6 md:p-8 rounded-t-3xl sm:rounded-3xl">
             <form method="dialog">
                 <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 text-base-content/50 hover:bg-base-200" id="btn-info-close">✕</button>
             </form>
             <div class="flex items-center gap-3 mb-6">
-                <span class="material-symbols-outlined text-primary text-3xl">menu_book</span>
+                <span class="material-symbols-outlined text-neutral text-3xl">menu_book</span>
                 <h3 class="font-bold text-2xl tracking-tight">Sobre esta ferramenta</h3>
             </div>
             
@@ -263,12 +263,12 @@
 
     <!-- Lead Capture Modal -->
     <dialog id="lead-modal" class="modal">
-        <div class="modal-box text-center max-w-sm rounded-[24px] p-8">
-            <div class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-5">
-                <span class="material-symbols-outlined text-primary text-[40px]">waving_hand</span>
+        <div class="modal-box text-center max-w-sm rounded-[24px] p-5 sm:p-8">
+            <div class="w-16 h-16 sm:w-20 sm:h-20 bg-neutral/10 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-5">
+                <span class="material-symbols-outlined text-neutral text-[32px] sm:text-[40px]">waving_hand</span>
             </div>
-            <h3 class="font-bold text-2xl mb-2 tracking-tight">Bem-vindo!</h3>
-            <p class="text-base-content/60 mb-8 text-[15px]">Para continuar, informe seus dados de contato.</p>
+            <h3 class="font-bold text-xl sm:text-2xl mb-2 tracking-tight">Bem-vindo!</h3>
+            <p class="text-base-content/60 mb-6 sm:mb-8 text-[14px] sm:text-[15px]">Para continuar, informe seus dados de contato.</p>
             
             <form id="lead-form" novalidate class="flex flex-col gap-4 text-left">
                 <div class="form-control w-full">
