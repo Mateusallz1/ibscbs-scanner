@@ -233,7 +233,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Grid de coluna única quando só um grupo está visível
         const onlyOne = comIbsArray.length === 0 || semIbsArray.length === 0;
-        resultsGrid.classList.toggle('single-column', onlyOne);
+        if (onlyOne) {
+            resultsGrid.classList.remove('lg:grid-cols-2');
+            resultsGrid.classList.add('grid-cols-1');
+        } else {
+            resultsGrid.classList.add('lg:grid-cols-2');
+            resultsGrid.classList.remove('grid-cols-1');
+        }
 
         // Mostrar dashboard
         dashboard.classList.remove('hidden');
@@ -241,13 +247,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function createCompanyItem(empresa, hasIbs) {
         const item = document.createElement('div');
-        item.className = 'md-list-item';
+        item.className = 'p-4 rounded-2xl bg-base-200/50 hover:bg-base-200 transition-colors cursor-pointer border border-transparent hover:border-base-300';
 
         let detailHtml = '';
         let hasMissingIbs = false;
 
         if (hasIbs) {
-            detailHtml = '<div class="company-details">';
+            detailHtml = '<div class="company-details flex-col gap-2 border-t border-base-300 pt-3 mt-3">';
             for (const [tipo, stats] of Object.entries(empresa.tipos)) {
                 if (stats.todos_arquivos && stats.todos_arquivos.length > 0) {
                     const notasSem = stats.todos_arquivos.filter(arq => !stats.arquivos.some(a => a[0] === arq));
@@ -255,26 +261,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 if (stats.total_xmls > 0) {
                     const statusText = stats.xmls_com_ibs > 0
-                        ? `<span class="text-success">${stats.xmls_com_ibs}/${stats.total_xmls} com IBSCBS</span>`
-                        : `${stats.xmls_com_ibs}/${stats.total_xmls} sem IBSCBS`;
-                    detailHtml += `<div class="company-detail-item"><strong>${escapeHtml(tipo)}</strong>: ${statusText}</div>`;
+                        ? `<span class="text-success font-semibold">${stats.xmls_com_ibs}/${stats.total_xmls} com IBSCBS</span>`
+                        : `<span class="text-base-content/60">${stats.xmls_com_ibs}/${stats.total_xmls} sem IBSCBS</span>`;
+                    detailHtml += `<div class="company-detail-item text-[13px]"><strong class="text-base-content/80">${escapeHtml(tipo)}</strong>: ${statusText}</div>`;
 
                     if (stats.xmls_com_ibs > 0) {
-                        detailHtml += `<div style="margin-left:8px;">`;
+                        detailHtml += `<div class="ml-2 flex flex-col gap-1.5 mt-1.5">`;
                         stats.arquivos.forEach(([arq, tags]) => {
-                            const tagsChips = tags.map(t => `<span class="tag-chip">${escapeHtml(t)}</span>`).join('');
-                            detailHtml += `<div style="font-size:12px; margin-top:4px;">\ud83d\udcc4 ${escapeHtml(arq)}<br>${tagsChips}</div>`;
+                            const tagsChips = tags.map(t => `<span class="badge badge-outline badge-sm opacity-60 text-[10px] py-0 h-4 border-base-content/20 ml-1">${escapeHtml(t)}</span>`).join('');
+                            detailHtml += `<div class="text-[12px] flex flex-wrap items-center gap-1 text-base-content/80"><span class="opacity-60">\ud83d\udcc4</span> ${escapeHtml(arq)}${tagsChips}</div>`;
                         });
                         detailHtml += `</div>`;
                     }
                     if (stats.todos_arquivos && stats.todos_arquivos.length > 0) {
                         const notasSemIbs = stats.todos_arquivos.filter(arq => !stats.arquivos.some(a => a[0] === arq));
                         if (notasSemIbs.length > 0) {
-                            detailHtml += `<div style="margin-left:8px; margin-top:12px; color: #FBC02D;"><strong>Atenção: Notas sem IBSCBS identificadas:</strong></div>`;
-                            detailHtml += `<div style="margin-left:8px; display: flex; flex-direction: column; gap: 6px; margin-top: 6px; margin-bottom: 8px;">`;
+                            detailHtml += `<div class="ml-2 mt-3 text-warning text-[12px] font-bold">Atenção: Notas sem IBSCBS identificadas:</div>`;
+                            detailHtml += `<div class="ml-2 flex flex-col items-start gap-1.5 mt-2 mb-2">`;
                             notasSemIbs.forEach(arq => {
-                                detailHtml += `<div class="note-warning">
-                                    <span class="material-symbols-outlined note-warning-icon">warning</span>
+                                detailHtml += `<div class="flex items-center gap-1.5 text-warning bg-warning/10 px-2 py-1 rounded text-[11px] font-semibold border border-warning/20">
+                                    <span class="material-symbols-outlined text-[14px]">warning</span>
                                     <span>\ud83d\udcc4 ${escapeHtml(arq)}</span>
                                 </div>`;
                             });
@@ -294,11 +300,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     arquivosVistos.push(...stats.todos_arquivos);
                 }
             }
-            detailHtml = `<div class="company-details"><div class="company-detail-item">${total} nota(s) analisada(s)</div>`;
+            detailHtml = `<div class="company-details flex-col gap-2 border-t border-base-300 pt-3 mt-3"><div class="company-detail-item text-[13px] font-medium opacity-80">${total} nota(s) analisada(s)</div>`;
             if (arquivosVistos.length > 0) {
-                detailHtml += `<div style="margin-top: 8px;">`;
+                detailHtml += `<div class="ml-2 mt-1 flex flex-col gap-1">`;
                 arquivosVistos.forEach(arq => {
-                    detailHtml += `<div style="font-size:12px; margin-top:4px;">\ud83d\udcc4 ${escapeHtml(arq)}</div>`;
+                    detailHtml += `<div class="text-[12px] text-base-content/80 flex gap-2 overflow-hidden"><span class="opacity-60">\ud83d\udcc4</span><span class="truncate">${escapeHtml(arq)}</span></div>`;
                 });
                 detailHtml += `</div>`;
             }
@@ -308,27 +314,27 @@ document.addEventListener('DOMContentLoaded', () => {
         let iconHtml = '';
         if (hasIbs) {
             if (hasMissingIbs) {
-                iconHtml = `<span class="material-symbols-outlined text-warning">warning</span>`;
+                iconHtml = `<span class="material-symbols-outlined text-warning text-[24px]">warning</span>`;
             } else {
-                iconHtml = `<span class="material-symbols-outlined text-success">check_circle</span>`;
+                iconHtml = `<span class="material-symbols-outlined text-success text-[24px]">check_circle</span>`;
             }
         } else {
-            iconHtml = `<span class="material-symbols-outlined text-error">cancel</span>`;
+            iconHtml = `<span class="material-symbols-outlined text-error text-[24px]">cancel</span>`;
         }
 
         const companyName = escapeHtml(empresa.empresa);
         const companyCnpj = empresa.cnpj && empresa.cnpj !== 'Desconhecido' ? escapeHtml(empresa.cnpj) : '';
 
         item.innerHTML = `
-            <div class="company-name" style="align-items: flex-start;">
-                <span style="display:flex; gap:8px;">
+            <div class="flex justify-between items-start company-name">
+                <div class="flex gap-3 items-start">
                     ${iconHtml}
-                    <div style="display: flex; flex-direction: column;">
-                        <span>${companyName}</span>
-                        <span style="font-size: 12px; font-weight: 400; color: var(--md-sys-color-on-surface-variant);">${companyCnpj}</span>
+                    <div class="flex flex-col gap-0.5">
+                        <span class="font-bold text-[14px] leading-tight text-base-content">${companyName}</span>
+                        <span class="text-[12px] font-semibold text-base-content/50">${companyCnpj}</span>
                     </div>
-                </span>
-                <span class="material-symbols-outlined expand-icon">expand_more</span>
+                </div>
+                <span class="material-symbols-outlined expand-icon text-base-content/40 transition-transform">expand_more</span>
             </div>
             ${detailHtml}
         `;
@@ -406,13 +412,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Info Modal ---
     const infoModal = document.getElementById('info-modal');
     document.getElementById('btn-info-open').addEventListener('click', () => {
-        infoModal.classList.remove('hidden');
+        infoModal.showModal();
     });
     document.getElementById('btn-info-close').addEventListener('click', () => {
-        infoModal.classList.add('hidden');
-    });
-    infoModal.addEventListener('click', (e) => {
-        if (e.target === infoModal) infoModal.classList.add('hidden');
+        infoModal.close();
     });
 
     // --- Lead Capture Modal ---
@@ -423,7 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function checkLeadModal() {
         if (localStorage.getItem('ibscbs_lead_done')) return;
         const count = parseInt(localStorage.getItem('ibscbs_scan_count') || '0', 10);
-        if (count >= 2) leadModal.classList.remove('hidden');
+        if (count >= 2) leadModal.showModal();
     }
 
     leadForm.addEventListener('submit', async (e) => {
@@ -447,7 +450,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (_) { /* silent — não bloquear o usuário */ }
 
         localStorage.setItem('ibscbs_lead_done', '1');
-        leadModal.classList.add('hidden');
+        leadModal.close();
     });
 
 });

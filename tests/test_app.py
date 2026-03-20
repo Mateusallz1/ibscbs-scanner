@@ -45,7 +45,7 @@ class TestIndexRoute:
     def test_index_returns_html(self, client):
         resp = client.get("/")
         assert resp.status_code == 200
-        assert b"Scanner" in resp.data
+        assert b"Validador" in resp.data
 
 
 class TestScanRoute:

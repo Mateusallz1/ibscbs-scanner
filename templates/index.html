@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="cupcake">
 
 <head>
     <meta charset="UTF-8">
@@ -14,245 +14,287 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
         rel="stylesheet" />
 
+    <link rel="stylesheet" href="/static/tailwind.css">
     <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
 </head>
 
-<body class="md-body">
+<body class="bg-base-200 min-h-screen text-base-content font-sans antialiased">
 
-    <!-- Top App Bar -->
-    <header class="md-app-bar surface-container">
-        <div class="md-app-bar-content">
-            <span class="material-symbols-outlined md-icon">document_scanner</span>
-            <h1 class="md-title">Validador Reforma Tributária</h1>
-            <button id="btn-theme-toggle" class="theme-toggle-btn" title="Alternar tema">
+    <!-- Drawer Layout Model -->
+    <div class="drawer lg:drawer-open">
+      <input id="my-drawer-1" type="checkbox" class="drawer-toggle" />
+      <div class="drawer-content flex flex-col">
+        <!-- Navbar -->
+        <nav class="navbar w-full bg-base-100 shadow-sm sticky top-0 z-50">
+          <div class="navbar-start">
+            <label for="my-drawer-1" aria-label="open sidebar" class="btn btn-square btn-ghost lg:hidden shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor" class="size-6">
+                <path d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </label>
+            <div class="px-2 lg:px-4 text-base md:text-lg font-bold tracking-tight truncate">
+              Validador Reforma Tributária
+            </div>
+          </div>
+          <div class="navbar-end">
+            <button id="btn-theme-toggle" class="btn btn-ghost btn-circle hidden" title="Alternar tema">
                 <span class="material-symbols-outlined" id="theme-toggle-icon">light_mode</span>
             </button>
-        </div>
-    </header>
+          </div>
+        </nav>
+        
+        <!-- Main Form & Dashboard -->
+        <main class="grid p-4 md:p-8 gap-6 max-w-5xl w-full mx-auto">
 
-    <main class="md-main-container">
+            <!-- Input Card Component -->
+            <section class="card bg-base-100 shadow-xl overflow-hidden border border-base-200">
+                <div class="card-body p-5 md:p-8">
+                    <h2 class="card-title text-xl md:text-2xl mb-1">Inicie a Varredura</h2>
+                    <p class="text-sm md:text-base text-base-content/70">Arraste e solte arquivos compactados (.zip, .rar) ou arquivos XML individuais.</p>
 
-        <!-- Input Card -->
-        <section class="md-card elevation-1">
-            <div class="md-card-content">
-                <h2 class="md-headline">Inicie a Varredura</h2>
-                <p class="md-body-text">Arraste e solte arquivos compactados (.zip, .rar) ou arquivos XML individuais.
-                </p>
+                    <form id="scan-form" class="flex flex-col gap-6 mt-4">
+                        <div id="drop-area" class="border-2 border-dashed border-base-300 rounded-2xl p-8 text-center transition-colors cursor-pointer hover:bg-base-200/50 w-full flex flex-col items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-4xl text-base-content/40 mb-2">drive_folder_upload</span>
+                            <h3 class="font-semibold text-lg">Solte arquivos .zip, .rar ou .xml aqui</h3>
+                            <p class="text-sm text-base-content/60 mb-2">Ou selecione via botão</p>
+                            <!-- Official DaisyUI File Input Component -->
+                            <input type="file" id="file-input"
+                                accept=".zip,.rar,.xml,application/zip,application/x-rar-compressed,text/xml,application/xml"
+                                multiple class="file-input file-input-bordered file-input-neutral w-full max-w-xs relative z-10 pointer-events-none">
+                        </div>
 
-                <form id="scan-form" class="md-form">
-                    <div id="drop-area" class="drop-area">
-                        <span class="material-symbols-outlined icon-large"
-                            style="margin-bottom: 8px;">drive_folder_upload</span>
-                        <h3>Solte arquivos .zip, .rar ou .xml aqui</h3>
-                        <p>Ou clique para selecionar arquivos</p>
-                        <input type="file" id="file-input"
-                            accept=".zip,.rar,.xml,application/zip,application/x-rar-compressed,text/xml,application/xml"
-                            multiple hidden>
+                        <div id="selected-file-info" class="hidden flex items-center gap-3 p-4 bg-base-200 rounded-xl border border-base-300">
+                            <span class="material-symbols-outlined text-primary text-2xl">description</span>
+                            <div class="flex flex-col">
+                                <span class="text-[11px] text-base-content/60 font-bold uppercase tracking-wider">Arquivos Selecionados</span>
+                                <div id="file-names" class="font-medium text-sm"></div>
+                            </div>
+                        </div>
+
+                        <div class="card-actions justify-end mt-2">
+                            <button type="submit" class="btn btn-neutral px-8 rounded-full shadow-md" id="btn-scan" disabled>
+                                <span class="material-symbols-outlined text-[20px]">search</span>
+                                Processar Arquivos
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="loader" class="hidden w-full h-[3px] bg-primary/20">
+                    <div class="h-full bg-primary origin-left animate-indefinite-progress"></div>
+                </div>
+            </section>
+
+            <!-- Error Banner -->
+            <div id="error-banner" class="hidden alert alert-error shadow-sm rounded-xl py-3">
+                <span class="material-symbols-outlined text-error-content">error</span>
+                <span id="error-text" class="text-error-content text-sm font-medium"></span>
+            </div>
+
+            <!-- Dashboard Results -->
+            <section id="dashboard" class="hidden flex flex-col gap-6">
+
+                <!-- Official Daisy UI Stats Component Layout -->
+                <div class="stats stats-vertical bg-base-100 shadow-md lg:stats-horizontal border border-base-200" id="dashboard-summary">
+                    <div class="stat">
+                        <div class="stat-figure text-primary">
+                            <span class="material-symbols-outlined text-4xl">analytics</span>
+                        </div>
+                        <div class="stat-title font-medium text-base-content/60">Empresas Analisadas</div>
+                        <div class="stat-value text-3xl font-bold tracking-tight" id="stat-total">0</div>
                     </div>
+                    
+                    <div class="stat">
+                        <div class="stat-figure text-success">
+                            <span class="material-symbols-outlined text-4xl">check_circle</span>
+                        </div>
+                        <div class="stat-title font-medium text-base-content/60">Com IBSCBS</div>
+                        <div class="stat-value text-success font-bold tracking-tight" id="stat-com-ibs">0</div>
+                    </div>
+                    
+                    <div class="stat">
+                        <div class="stat-figure text-error">
+                            <span class="material-symbols-outlined text-4xl">cancel</span>
+                        </div>
+                        <div class="stat-title font-medium text-base-content/60">Sem IBSCBS</div>
+                        <div class="stat-value text-error font-bold tracking-tight" id="stat-sem-ibs">0</div>
+                    </div>
+                </div>
 
-                    <div id="selected-file-info" class="hidden">
-                        <span class="material-symbols-outlined text-primary">description</span>
-                        <div style="display:flex; flex-direction: column;">
-                            <span style="font-size: 12px; color: var(--md-sys-color-on-surface-variant);">Arquivos
-                                Selecionados</span>
-                            <div id="file-names" style="font-weight: 500;"></div>
+                <!-- Estado vazio -->
+                <div id="empty-state" class="hidden flex flex-col items-center justify-center py-16 px-8 text-center bg-base-100 rounded-2xl shadow-sm border border-dashed border-base-300">
+                    <span class="material-symbols-outlined text-5xl text-base-content/30 mb-4">folder_open</span>
+                    <p class="text-lg font-medium text-base-content/70">Nenhuma nota fiscal encontrada nos arquivos enviados.</p>
+                </div>
+
+                <!-- Listas -->
+                <div class="grid lg:grid-cols-2 gap-4" id="results-grid">
+                    <!-- Empresas COM IBS -->
+                    <div class="card bg-base-100 shadow-md border-t-4 border-t-success rounded-2xl" id="col-com-ibs">
+                        <div class="card-body p-5 md:p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="card-title text-lg font-bold">Com IBSCBS</h3>
+                                <div class="badge badge-success text-success-content font-bold shadow-sm" id="badge-com-ibs">0</div>
+                            </div>
+                            <div class="flex flex-col gap-2" id="list-com-ibs">
+                                <!-- Itens injetados via JS -->
+                            </div>
                         </div>
                     </div>
 
-                    <div class="form-actions">
-                        <button type="submit" class="md-btn md-btn-filled" id="btn-scan" disabled>
-                            <span class="material-symbols-outlined">search</span>
-                            Processar Arquivos
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-            <div id="loader" class="md-linear-progress hidden">
-                <div class="md-progress-bar"></div>
-            </div>
-        </section>
-
-        <!-- Error Banner -->
-        <div id="error-banner" class="md-banner hidden">
-            <span class="material-symbols-outlined text-error">error</span>
-            <span id="error-text" class="md-body-text"></span>
-        </div>
-
-        <!-- Dashboard (Results) -->
-        <section id="dashboard" class="hidden">
-
-            <!-- Resumo -->
-            <div class="dashboard-summary" id="dashboard-summary">
-                <div class="md-card elevation-1 surface-container-low summary-card">
-                    <span class="material-symbols-outlined icon-large text-primary">analytics</span>
-                    <div class="stat-text">
-                        <span class="stat-value" id="stat-total">0</span>
-                        <span class="stat-label">Empresas Analisadas</span>
+                    <!-- Empresas SEM IBS -->
+                    <div class="card bg-base-100 shadow-md border-t-4 border-t-error rounded-2xl" id="col-sem-ibs">
+                        <div class="card-body p-5 md:p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="card-title text-lg font-bold">Sem IBSCBS</h3>
+                                <div class="badge badge-error text-error-content font-bold shadow-sm" id="badge-sem-ibs">0</div>
+                            </div>
+                            <div class="flex flex-col gap-2" id="list-sem-ibs">
+                                <!-- Itens injetados via JS -->
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="md-card elevation-1 surface-container-low summary-card">
-                    <span class="material-symbols-outlined icon-large text-success">check_circle</span>
-                    <div class="stat-text">
-                        <span class="stat-value" id="stat-com-ibs">0</span>
-                        <span class="stat-label">Com IBSCBS</span>
-                    </div>
+                <!-- Botões de ação -->
+                <div class="flex justify-end mt-2 dashboard-actions">
+                    <button type="button" class="btn btn-neutral rounded-full px-6 shadow-md" id="btn-export-pdf"
+                        title="Gerar relatório em PDF com análises detalhadas">
+                        <span class="material-symbols-outlined text-[20px]">picture_as_pdf</span>
+                        Gerar Relatório PDF
+                    </button>
                 </div>
+            </section>
+        </main>
+      </div>
 
-                <div class="md-card elevation-1 surface-container-low summary-card">
-                    <span class="material-symbols-outlined icon-large text-error">cancel</span>
-                    <div class="stat-text">
-                        <span class="stat-value" id="stat-sem-ibs">0</span>
-                        <span class="stat-label">Sem IBSCBS</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Estado vazio -->
-            <div id="empty-state" class="hidden empty-state-full">
-                <span class="material-symbols-outlined icon-large" style="color: var(--md-sys-color-on-surface-variant);">folder_open</span>
-                <p>Nenhuma nota fiscal encontrada nos arquivos enviados.</p>
-            </div>
-
-            <!-- Listas -->
-            <div class="results-grid" id="results-grid">
-
-                <!-- Empresas COM IBS -->
-                <div class="md-card elevation-1 result-column border-success" id="col-com-ibs">
-                    <div class="column-header">
-                        <h3 class="md-title">Com IBSCBS</h3>
-                        <span class="badge badge-success" id="badge-com-ibs">0</span>
-                    </div>
-                    <div class="md-list" id="list-com-ibs">
-                        <!-- Itens injetados via JS -->
-                    </div>
-                </div>
-
-                <!-- Empresas SEM IBS -->
-                <div class="md-card elevation-1 result-column border-error" id="col-sem-ibs">
-                    <div class="column-header">
-                        <h3 class="md-title">Sem IBSCBS</h3>
-                        <span class="badge badge-error" id="badge-sem-ibs">0</span>
-                    </div>
-                    <div class="md-list" id="list-sem-ibs">
-                        <!-- Itens injetados via JS -->
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Botões de ação -->
-            <div class="dashboard-actions">
-                <button type="button" class="md-btn md-btn-filled" id="btn-export-pdf"
-                    title="Gerar relatório em PDF com análises detalhadas">
-                    <span class="material-symbols-outlined">picture_as_pdf</span>
-                    Gerar Relatório PDF
+      <!-- Drawer Sidebar Layout -->
+      <div class="drawer-side is-drawer-close:overflow-visible z-50 lg:z-auto">
+        <label for="my-drawer-1" aria-label="close sidebar" class="drawer-overlay"></label>
+        <div class="flex min-h-full flex-col items-start bg-base-200 lg:bg-base-100 is-drawer-close:w-16 is-drawer-open:w-64 border-r border-base-300">
+          <ul class="menu w-full grow mt-4">
+            <li>
+                <button class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Scanner" onclick="window.scrollTo(0,0)">
+                    <span class="material-symbols-outlined my-1.5 inline-block text-[22px] text-primary">document_scanner</span>
+                    <span class="is-drawer-close:hidden font-semibold">Scanner</span>
                 </button>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- About FAB -->
-    <button type="button" id="btn-info-open" class="md-fab" title="Sobre esta ferramenta">
-        <span class="material-symbols-outlined">help</span>
-    </button>
+            </li>
+            <div class="divider my-1 is-drawer-close:hidden"></div>
+            <!-- Info button moved from FAB to Sidebar -->
+            <li>
+                <button id="btn-info-open" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Sobre a ferramenta">
+                    <span class="material-symbols-outlined my-1.5 inline-block text-[22px]">help</span>
+                    <span class="is-drawer-close:hidden font-semibold">Sobre a ferramenta</span>
+                </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
 
     <!-- Info Modal -->
-    <div id="info-modal" class="modal-overlay hidden">
-        <div class="modal-card modal-card--info">
-
-            <div class="info-modal-header">
-                <div class="info-header">
-                    <span class="material-symbols-outlined text-primary">menu_book</span>
-                    <h2 class="md-headline">Sobre esta ferramenta</h2>
-                </div>
-                <button type="button" id="btn-info-close" class="modal-close-btn">
-                    <span class="material-symbols-outlined">close</span>
-                </button>
+    <dialog id="info-modal" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box w-11/12 max-w-2xl p-6 md:p-8 rounded-t-3xl sm:rounded-3xl">
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 text-base-content/50 hover:bg-base-200" id="btn-info-close">✕</button>
+            </form>
+            <div class="flex items-center gap-3 mb-6">
+                <span class="material-symbols-outlined text-primary text-3xl">menu_book</span>
+                <h3 class="font-bold text-2xl tracking-tight">Sobre esta ferramenta</h3>
             </div>
-
-            <p class="md-body-text">
-                A <strong>Reforma Tributária</strong> (LC&nbsp;214/2025) institui o <strong>IBS</strong>
-                (Imposto sobre Bens e Serviços) e a <strong>CBS</strong> (Contribuição sobre Bens e Serviços),
+            
+            <p class="py-2 text-base-content/80 text-[15px] leading-relaxed">
+                A <strong class="text-base-content">Reforma Tributária</strong> (LC&nbsp;214/2025) institui o <strong class="text-base-content">IBS</strong>
+                (Imposto sobre Bens e Serviços) e a <strong class="text-base-content">CBS</strong> (Contribuição sobre Bens e Serviços),
                 que substituirão progressivamente o ICMS, ISS, PIS e COFINS. A partir de 2026, as notas fiscais
-                eletrônicas passam a registrar esses novos tributos no campo <code class="inline-code">IBSCBS</code>.
+                eletrônicas passam a registrar esses novos tributos no campo <code class="bg-base-200 px-1.5 py-0.5 rounded font-mono text-sm border border-base-300">IBSCBS</code>.
             </p>
-            <p class="md-body-text" style="margin-top: 8px;">
+            <p class="py-2 text-base-content/80 text-[15px] leading-relaxed">
                 Esta ferramenta varre os arquivos XML enviados e identifica quais empresas já declaram o IBS e a CBS
                 em suas notas, sinalizando aquelas que ainda precisam se adequar à nova obrigação tributária.
             </p>
 
-            <div class="info-formats">
-                <div class="info-format-chip">
-                    <span class="material-symbols-outlined">receipt_long</span>
-                    <div>
-                        <span class="format-name">NF-e</span>
-                        <span class="format-desc">Nota Fiscal Eletrônica</span>
+            <div class="flex flex-col sm:flex-row gap-3 my-6">
+                <div class="flex items-center gap-3 bg-base-200/50 border border-base-200 p-3 rounded-xl flex-1">
+                    <span class="material-symbols-outlined text-2xl text-base-content/50">receipt_long</span>
+                    <div class="flex flex-col">
+                        <span class="font-bold text-[15px]">NF-e</span>
+                        <span class="text-xs text-base-content/60 font-medium">Nota Fiscal Eletrônica</span>
                     </div>
                 </div>
-                <div class="info-format-chip">
-                    <span class="material-symbols-outlined">storefront</span>
-                    <div>
-                        <span class="format-name">NFC-e</span>
-                        <span class="format-desc">Nota Fiscal ao Consumidor</span>
+                <div class="flex items-center gap-3 bg-base-200/50 border border-base-200 p-3 rounded-xl flex-1">
+                    <span class="material-symbols-outlined text-2xl text-base-content/50">storefront</span>
+                    <div class="flex flex-col">
+                        <span class="font-bold text-[15px]">NFC-e</span>
+                        <span class="text-xs text-base-content/60 font-medium">Nota Fiscal ao Consumidor</span>
                     </div>
                 </div>
-                <div class="info-format-chip">
-                    <span class="material-symbols-outlined">home_repair_service</span>
-                    <div>
-                        <span class="format-name">NFS-e</span>
-                        <span class="format-desc">Nota Fiscal de Serviços</span>
+                <div class="flex items-center gap-3 bg-base-200/50 border border-base-200 p-3 rounded-xl flex-1">
+                    <span class="material-symbols-outlined text-2xl text-base-content/50">home_repair_service</span>
+                    <div class="flex flex-col">
+                        <span class="font-bold text-[15px]">NFS-e</span>
+                        <span class="text-xs text-base-content/60 font-medium">Nota Fiscal de Serviços</span>
                     </div>
                 </div>
             </div>
 
-            <div class="info-legend">
-                <div class="legend-item">
-                    <span class="material-symbols-outlined text-success legend-icon">check_circle</span>
-                    <span class="md-body-text"><strong>Com IBS e CBS</strong> — A empresa já registra o IBS e a CBS em todas as notas. Adequada ao novo regime tributário.</span>
+            <div class="border-t border-base-200 pt-6 flex flex-col gap-5">
+                <div class="flex items-start gap-4">
+                    <span class="material-symbols-outlined text-success">check_circle</span>
+                    <p class="text-[14px] text-base-content/80 leading-relaxed"><strong class="text-base-content">Com IBS e CBS</strong> — A empresa já registra o IBS e a CBS em todas as notas. Adequada ao novo regime tributário.</p>
                 </div>
-                <div class="legend-item">
-                    <span class="material-symbols-outlined text-warning legend-icon">warning</span>
-                    <span class="md-body-text"><strong>Parcial</strong> — A empresa registra o IBS e a CBS em parte das notas, mas não em todas. Pode indicar emissores mistos ou transição incompleta.</span>
+                <div class="flex items-start gap-4">
+                    <span class="material-symbols-outlined text-warning">warning</span>
+                    <p class="text-[14px] text-base-content/80 leading-relaxed"><strong class="text-base-content">Parcial</strong> — A empresa registra o IBS e a CBS em parte das notas, mas não em todas. Pode indicar emissores mistos ou transição incompleta.</p>
                 </div>
-                <div class="legend-item">
-                    <span class="material-symbols-outlined text-error legend-icon">cancel</span>
-                    <span class="md-body-text"><strong>Sem IBS e CBS</strong> — A empresa não registra os novos tributos. Pode necessitar de adequação ou atualização do emissor.</span>
+                <div class="flex items-start gap-4">
+                    <span class="material-symbols-outlined text-error">cancel</span>
+                    <p class="text-[14px] text-base-content/80 leading-relaxed"><strong class="text-base-content">Sem IBS e CBS</strong> — A empresa não registra os novos tributos. Pode necessitar de adequação ou atualização do emissor.</p>
                 </div>
             </div>
-
         </div>
-    </div>
+        <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+        </form>
+    </dialog>
 
     <!-- Lead Capture Modal -->
-    <div id="lead-modal" class="modal-overlay hidden">
-        <div class="modal-card">
-            <span class="material-symbols-outlined icon-large text-primary" style="margin-bottom: 12px;">waving_hand</span>
-            <h2 class="md-headline" style="margin-bottom: 8px;">Bem-vindo!</h2>
-            <p class="md-body-text" style="margin-bottom: 24px; color: var(--md-sys-color-on-surface-variant);">
-                Para continuar, informe seus dados de contato.
-            </p>
-            <form id="lead-form" novalidate>
-                <div class="modal-field">
-                    <label for="lead-nome">Nome</label>
-                    <input type="text" id="lead-nome" placeholder="Seu nome completo" autocomplete="name">
+    <dialog id="lead-modal" class="modal">
+        <div class="modal-box text-center max-w-sm rounded-[24px] p-8">
+            <div class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-5">
+                <span class="material-symbols-outlined text-primary text-[40px]">waving_hand</span>
+            </div>
+            <h3 class="font-bold text-2xl mb-2 tracking-tight">Bem-vindo!</h3>
+            <p class="text-base-content/60 mb-8 text-[15px]">Para continuar, informe seus dados de contato.</p>
+            
+            <form id="lead-form" novalidate class="flex flex-col gap-4 text-left">
+                <div class="form-control w-full">
+                    <label class="label pb-1">
+                        <span class="label-text font-bold uppercase text-[11px] tracking-wider text-base-content/60">Nome</span>
+                    </label>
+                    <input type="text" id="lead-nome" placeholder="Seu nome completo" class="input input-bordered bg-base-200/50 focus:bg-base-100 transition-colors rounded-xl w-full" autocomplete="name" />
                 </div>
-                <div class="modal-field">
-                    <label for="lead-email">E-mail</label>
-                    <input type="email" id="lead-email" placeholder="seu@email.com" autocomplete="email">
+                
+                <div class="form-control w-full">
+                    <label class="label pb-1">
+                        <span class="label-text font-bold uppercase text-[11px] tracking-wider text-base-content/60">E-mail</span>
+                    </label>
+                    <input type="email" id="lead-email" placeholder="seu@email.com" class="input input-bordered bg-base-200/50 focus:bg-base-100 transition-colors rounded-xl w-full" autocomplete="email" />
                 </div>
-                <p id="lead-error" class="lead-error hidden">Preencha nome e e-mail válidos.</p>
-                <div class="modal-actions">
-                    <button type="submit" class="md-btn md-btn-filled">
-                        <span class="material-symbols-outlined">check</span>
-                        Continuar
-                    </button>
-                </div>
+                
+                <p id="lead-error" class="text-error text-[13px] font-medium hidden mt-1">Preencha nome e e-mail válidos.</p>
+                
+                <button type="submit" class="btn btn-neutral w-full mt-4 rounded-xl">
+                    <span class="material-symbols-outlined text-[20px]">check</span>
+                    Continuar
+                </button>
             </form>
         </div>
-    </div>
+        <!-- Lead modal cannot be closed by clicking outside since it's a hard requirement -->
+    </dialog>
 
     <script src="/static/script.js"></script>
 </body>
