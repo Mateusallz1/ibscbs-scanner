@@ -26,7 +26,7 @@
     <!-- Drawer Layout Model -->
     <div class="drawer lg:drawer-open">
       <input id="my-drawer-1" type="checkbox" class="drawer-toggle" />
-      <div class="drawer-content flex flex-col">
+      <div class="drawer-content flex flex-col min-w-0 overflow-x-hidden">
         <!-- Navbar -->
         <nav class="navbar w-full bg-base-100 shadow-sm sticky top-0 z-50">
           <div class="navbar-start">
@@ -47,7 +47,7 @@
         </nav>
         
         <!-- Main Form & Dashboard -->
-        <main class="grid p-3 sm:p-4 md:p-8 gap-4 sm:gap-6 max-w-5xl w-full mx-auto">
+        <main class="grid p-2 sm:p-4 md:p-8 gap-3 sm:gap-6 max-w-5xl w-full mx-auto overflow-hidden">
 
             <!-- Input Card Component -->
             <section class="card bg-base-100 shadow-xl overflow-hidden border border-base-200">
@@ -98,7 +98,7 @@
             <section id="dashboard" class="hidden flex flex-col gap-6">
 
                 <!-- Official Daisy UI Stats Component Layout -->
-                <div class="stats stats-vertical bg-base-100 shadow-md lg:stats-horizontal border border-base-200" id="dashboard-summary">
+                <div class="stats stats-vertical bg-base-100 shadow-md sm:stats-horizontal border border-base-200 w-full overflow-x-auto" id="dashboard-summary">
                     <div class="stat">
                         <div class="stat-figure text-neutral">
                             <span class="material-symbols-outlined text-4xl">analytics</span>
@@ -131,10 +131,10 @@
                 </div>
 
                 <!-- Listas -->
-                <div class="grid lg:grid-cols-2 gap-4" id="results-grid">
+                <div class="grid lg:grid-cols-2 gap-3 sm:gap-4 min-w-0" id="results-grid">
                     <!-- Empresas COM IBS -->
-                    <div class="card bg-base-100 shadow-md border-t-4 border-t-success rounded-2xl" id="col-com-ibs">
-                        <div class="card-body p-5 md:p-6">
+                    <div class="card bg-base-100 shadow-md border-t-4 border-t-success rounded-2xl overflow-hidden min-w-0" id="col-com-ibs">
+                        <div class="card-body p-3 sm:p-5 md:p-6">
                             <div class="flex justify-between items-center mb-4">
                                 <h3 class="card-title text-lg font-bold">Com IBSCBS</h3>
                                 <div class="badge badge-success text-success-content font-bold shadow-sm" id="badge-com-ibs">0</div>
@@ -146,8 +146,8 @@
                     </div>
 
                     <!-- Empresas SEM IBS -->
-                    <div class="card bg-base-100 shadow-md border-t-4 border-t-error rounded-2xl" id="col-sem-ibs">
-                        <div class="card-body p-5 md:p-6">
+                    <div class="card bg-base-100 shadow-md border-t-4 border-t-error rounded-2xl overflow-hidden min-w-0" id="col-sem-ibs">
+                        <div class="card-body p-3 sm:p-5 md:p-6">
                             <div class="flex justify-between items-center mb-4">
                                 <h3 class="card-title text-lg font-bold">Sem IBSCBS</h3>
                                 <div class="badge badge-error text-error-content font-bold shadow-sm" id="badge-sem-ibs">0</div>

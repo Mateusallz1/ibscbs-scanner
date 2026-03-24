@@ -247,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function createCompanyItem(empresa, hasIbs) {
         const item = document.createElement('div');
-        item.className = 'p-4 rounded-2xl bg-base-200/50 hover:bg-base-200 transition-colors cursor-pointer border border-transparent hover:border-base-300';
+        item.className = 'p-3 sm:p-4 rounded-2xl bg-base-200/50 hover:bg-base-200 transition-colors cursor-pointer border border-transparent hover:border-base-300 overflow-hidden min-w-0';
 
         let detailHtml = '';
         let hasMissingIbs = false;
