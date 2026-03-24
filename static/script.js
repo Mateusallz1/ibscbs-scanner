@@ -269,7 +269,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         detailHtml += `<div class="sm:ml-2 flex flex-col gap-1.5 mt-1.5">`;
                         stats.arquivos.forEach(([arq, tags]) => {
                             const tagsChips = tags.map(t => `<span class="badge badge-outline badge-sm opacity-60 text-[10px] py-0 h-4 border-base-content/20 shrink-0">${escapeHtml(t)}</span>`).join('');
-                            detailHtml += `<div class="text-[11px] sm:text-[12px] flex flex-wrap items-center gap-1 text-base-content/80"><span class="opacity-60 shrink-0">\ud83d\udcc4</span><span class="break-all">${escapeHtml(arq)}</span>${tagsChips}</div>`;
+                            detailHtml += `<div class="flex flex-col gap-1 text-base-content/80">
+                                <div class="text-[11px] sm:text-[12px] flex items-center gap-1"><span class="opacity-60 shrink-0">\ud83d\udcc4</span><span class="break-all">${escapeHtml(arq)}</span></div>
+                                <div class="flex flex-wrap gap-1 ml-5">${tagsChips}</div>
+                            </div>`;
                         });
                         detailHtml += `</div>`;
                     }
@@ -279,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             detailHtml += `<div class="sm:ml-2 mt-3 text-warning text-[11px] sm:text-[12px] font-bold">Atenção: Notas sem IBSCBS identificadas:</div>`;
                             detailHtml += `<div class="sm:ml-2 flex flex-col items-start gap-1.5 mt-2 mb-2">`;
                             notasSemIbs.forEach(arq => {
-                                detailHtml += `<div class="flex items-start gap-1.5 text-warning bg-warning/10 px-2 py-1.5 rounded text-[10px] sm:text-[11px] font-semibold border border-warning/20">
+                                detailHtml += `<div class="flex items-start gap-1.5 text-warning bg-warning/10 px-2 py-1.5 rounded text-[11px] sm:text-[12px] font-semibold border border-warning/20">
                                     <span class="material-symbols-outlined text-[14px] shrink-0 mt-0.5">warning</span>
                                     <span class="break-all">\ud83d\udcc4 ${escapeHtml(arq)}</span>
                                 </div>`;
