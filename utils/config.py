@@ -4,6 +4,8 @@ config.py
 Application-wide constants and configuration values.
 """
 
+import os
+
 # IBS tag names to search for in invoice XMLs
 IBS_TAGS: list[str] = [
     "IBSCBS",
@@ -39,17 +41,20 @@ VALID_XML_ROOTS: set[str] = {
 }
 
 # Upload constraints
-MAX_UPLOAD_SIZE_MB = 50
+MAX_UPLOAD_SIZE_MB = int(os.environ.get("MAX_UPLOAD_SIZE_MB", 50))
 ALLOWED_EXTENSIONS: set[str] = {".zip", ".rar", ".xml"}
 
 # Concurrency: max number of /api/scan requests processed simultaneously.
 # Requests that arrive while the limit is reached receive HTTP 429.
-MAX_CONCURRENT_SCANS = 3
+MAX_CONCURRENT_SCANS = int(os.environ.get("MAX_CONCURRENT_SCANS", 3))
 
 # Archive bomb protection
-MAX_EXTRACTED_SIZE_MB = 200    # max total uncompressed size across all files
+MAX_EXTRACTED_SIZE_MB = int(os.environ.get("MAX_EXTRACTED_SIZE_MB", 200))
 MAX_EXTRACTED_FILES = 10_000   # max number of files inside the archive
 
 # Archive extraction: max items at root level before treating
 # the entire extraction folder as the target directory
 MAX_ARCHIVE_ROOT_ITEMS = 3
+
+# Google Apps Script URL for lead capture
+GOOGLE_SCRIPT_URL = os.environ.get("GOOGLE_SCRIPT_URL", "")

@@ -1,0 +1,16 @@
+# Environment
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Node (Tailwind build tooling only)
+node_modules/
+
+# App data
+leads.txt
+
+# OS
+.DS_Store
+Thumbs.db

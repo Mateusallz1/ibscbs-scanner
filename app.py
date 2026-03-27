@@ -23,7 +23,11 @@ sys.path.insert(0, os.path.dirname(__file__))
 import relatorio_pdf  # noqa: E402
 from services.file_processor import process_upload  # noqa: E402
 from services.invoice_scanner import scan_directory  # noqa: E402
-from utils.config import MAX_CONCURRENT_SCANS, MAX_UPLOAD_SIZE_MB  # noqa: E402
+from utils.config import (  # noqa: E402
+    GOOGLE_SCRIPT_URL,
+    MAX_CONCURRENT_SCANS,
+    MAX_UPLOAD_SIZE_MB,
+)
 from utils.file_utils import cleanup_directory  # noqa: E402
 
 # --- Logging ---
@@ -35,6 +39,7 @@ logger = logging.getLogger(__name__)
 
 # --- App ---
 app = Flask(__name__)
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-insecure-key")
 app.config["MAX_CONTENT_LENGTH"] = MAX_UPLOAD_SIZE_MB * 1024 * 1024
 
 # --- Concurrency control ---
@@ -179,16 +184,15 @@ def capture_lead():
 
 def _submit_lead_to_google_form(nome: str, email: str) -> None:
     """POST lead silenciosamente ao Google Apps Script em background."""
-    _SCRIPT_URL = (
-        "https://script.google.com/macros/s/"
-        "AKfycbzw28aUDEsNijDeRfKZhTcUh2f_oSxz5EDUXRrEX50mGBC7i_uy9Orha4Wu3OwcyAJI5w/exec"
-    )
+    if not GOOGLE_SCRIPT_URL:
+        logger.debug("GOOGLE_SCRIPT_URL not configured, skipping lead submission.")
+        return
     payload = urllib.parse.urlencode({
         "nome": nome,
         "email": email,
     }).encode("utf-8")
     try:
-        req = urllib.request.Request(_SCRIPT_URL, data=payload, method="POST")
+        req = urllib.request.Request(GOOGLE_SCRIPT_URL, data=payload, method="POST")
         req.add_header("Content-Type", "application/x-www-form-urlencoded")
         with urllib.request.urlopen(req, timeout=10) as resp:
             logger.info("Lead enviado ao Google Sheets. Status: %s", resp.status)
@@ -224,6 +228,8 @@ def export_pdf():
 
 
 if __name__ == "__main__":
+    debug = os.environ.get("FLASK_DEBUG", "0") == "1"
+    port = int(os.environ.get("PORT", 5000))
     logger.info("Iniciando interface gráfica web do Scanner de IBSCBS...")
-    logger.info("Acesse http://127.0.0.1:5000 no seu navegador.")
-    app.run(debug=True, port=5000)
+    logger.info("Acesse http://127.0.0.1:%d no seu navegador.", port)
+    app.run(debug=debug, host="0.0.0.0", port=port)
