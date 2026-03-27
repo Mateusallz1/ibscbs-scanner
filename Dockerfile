@@ -50,4 +50,5 @@ COPY --from=css-builder /build/static/tailwind.css ./static/tailwind.css
 EXPOSE 5000
 
 # 1 worker + 8 threads: preserves threading.Lock / Semaphore in-memory state
-CMD ["gunicorn", "app:app", "--workers", "1", "--threads", "8", "--bind", "0.0.0.0:5000", "--timeout", "120"]
+# Uses gunicorn.conf.py which reads PORT from env (Railway injects it)
+CMD ["gunicorn", "app:app", "--config", "gunicorn.conf.py"]
