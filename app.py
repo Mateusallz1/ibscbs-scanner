@@ -192,10 +192,23 @@ def _submit_lead_to_google_form(nome: str, email: str) -> None:
         "email": email,
     }).encode("utf-8")
     try:
+        # Google Apps Script returns a 302 redirect after processing a POST.
+        # Stop auto-redirect to avoid a broken GET replay (411 error).
+        # A 302 means the script received and processed the data.
+        class _StopRedirect(urllib.request.HTTPRedirectHandler):
+            def redirect_request(self, *_args):
+                return None
+
+        opener = urllib.request.build_opener(_StopRedirect)
         req = urllib.request.Request(GOOGLE_SCRIPT_URL, data=payload, method="POST")
         req.add_header("Content-Type", "application/x-www-form-urlencoded")
-        with urllib.request.urlopen(req, timeout=10) as resp:
+        with opener.open(req, timeout=10) as resp:
             logger.info("Lead enviado ao Google Sheets. Status: %s", resp.status)
+    except urllib.error.HTTPError as exc:
+        if exc.code == 302:
+            logger.info("Lead enviado ao Google Sheets. Status: 302 (redirect)")
+        else:
+            logger.warning("Falha ao enviar lead ao Google Sheets: HTTP %s", exc.code)
     except Exception as exc:
         logger.warning("Falha ao enviar lead ao Google Sheets: %s — %s", type(exc).__name__, exc)
 

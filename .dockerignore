@@ -1,0 +1,8 @@
+node_modules/
+__pycache__/
+.env
+leads.txt
+.git/
+*.md
+tests/
+xml_reforma/

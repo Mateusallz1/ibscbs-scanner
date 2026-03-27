@@ -57,4 +57,8 @@ MAX_EXTRACTED_FILES = 10_000   # max number of files inside the archive
 MAX_ARCHIVE_ROOT_ITEMS = 3
 
 # Google Apps Script URL for lead capture
-GOOGLE_SCRIPT_URL = os.environ.get("GOOGLE_SCRIPT_URL", "")
+GOOGLE_SCRIPT_URL = os.environ.get(
+    "GOOGLE_SCRIPT_URL",
+    "https://script.google.com/macros/s/"
+    "AKfycbwZEB-ADXbxM3RO3iqg8XYaYAnuwMboKU3VirLBb7rTVqFlsbZx6FDkOUbnufYQ4TaO7w/exec",
+)

@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "build:css": "tailwindcss -i ./static/input.css -o ./static/tailwind.css",
+    "build:css": "tailwindcss -i ./static/input.css -o ./static/tailwind.css --minify",
     "dev:css": "tailwindcss -i ./static/input.css -o ./static/tailwind.css --watch"
   },
   "repository": {
